@@ -18,8 +18,21 @@ def to_markdown(text):
 
 model = genai.GenerativeModel('gemini-pro')
 
-pergunta = input('Digite sua pergunta: ')
+#MENU
 
-response = model.generate_content(pergunta)
+while True:
+    escolha = input('Escolha a opção pergunta[2] ou sair[1]: ')
 
-print(response.text)
+    if escolha != '1':
+        pergunta = input('Digite sua pergunta: ')
+        chat = model.start_chat(history=[])
+        response = chat.send_message(pergunta)
+
+        response.resolve()
+        print(response.text)
+        print("")
+    else:
+        print('Obrigado!')
+        break
+
+
