@@ -17,5 +17,9 @@ def to_markdown(text):
   return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
 
 model = genai.GenerativeModel('gemini-pro')
-response = model.generate_content("What is the meaning of life?")
-print(response)
+
+pergunta = input('Digite sua pergunta: ')
+
+response = model.generate_content(pergunta)
+
+print(response.text)
