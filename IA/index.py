@@ -34,5 +34,3 @@ while True:
     else:
         print('Obrigado!')
         break
-
-
