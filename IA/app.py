@@ -1,49 +1,28 @@
-from flask import Flask, request, jsonify
-import torch
-from treinamento import SimpleLanguageModel
-from treinamento import model
-app = Flask(__name__)
+import flet as ft
 
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+def main(page: ft.Page):
+    page.title = "Flet counter example"
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
 
-# Carregue o modelo treinado
-checkpoint = torch.load('modelo.pth')
-model = SimpleLanguageModel(checkpoint['vocab_size'], checkpoint['embedding_dim'], checkpoint['hidden_dim'])
-model.load_state_dict(checkpoint['model_state_dict'])
-optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    txt_number = ft.TextField(value="0", text_align=ft.TextAlign.RIGHT, width=100)
 
-model.eval()
+    def minus_click(e):
+        txt_number.value = str(int(txt_number.value) - 1)
+        page.update()
 
-@app.route('/', methods=['GET'])
-def home():
-    return "Bem-vindo ao seu modelo de linguagem!"
+    def plus_click(e):
+        txt_number.value = str(int(txt_number.value) + 1)
+        page.update()
 
-@app.route('/predict', methods=['POST'])
-def predict():
-    try:
-        data = request.get_json()
-        input_sequence = data['input_sequence']
+    page.add(
+        ft.Row(
+            [
+                ft.IconButton(ft.icons.REMOVE, on_click=minus_click),
+                txt_number,
+                ft.IconButton(ft.icons.ADD, on_click=plus_click),
+            ],
+            alignment=ft.MainAxisAlignment.CENTER,
+        )
+    )
 
-        # Converta as strings em números inteiros
-        input_sequence = [int(item) for item in input_sequence]
-
-        # Carregue o modelo treinado
-        checkpoint = torch.load('modelo.pth')
-        model.load_state_dict(checkpoint['model_state_dict'])
-        optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
-
-        # Execute a inferência no modelo
-        with torch.no_grad():
-            input_tensor = torch.LongTensor(input_sequence).unsqueeze(0)
-            output = model(input_tensor)
-
-        # Converta a saída para uma lista
-        output_sequence = output.argmax(dim=-1).squeeze().tolist()
-
-        return jsonify({'output_sequence': output_sequence})
-
-    except Exception as e:
-        return jsonify({'error': str(e)})
-
-if __name__ == '__main__':
-    app.run(debug=True)
+ft.app(target=main)
