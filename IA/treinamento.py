@@ -2,7 +2,7 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 import datetime
 from chatterbot import ChatBot
-from chatterbot.trainers import ListTrainer
+from chatterbot.trainers import ListTrainer, ChatterBotCorpusTrainer
 
 # isso aqui só precisa para corrigir o bug
 from spacy.cli import download
@@ -24,9 +24,13 @@ for document in collection.find():
     conversas.append(document['resposta'])
 
 # Treinar chatbot com as perguntas e respostas recuperadas
-trainer = ListTrainer(chatbot)
-trainer.train(conversas)
+trainer1 = ListTrainer(chatbot)
+trainer2 = ChatterBotCorpusTrainer(chatbot)
 
+trainer1.train(conversas)
+trainer2.train(
+    "chatterbot.corpus.portuguese"
+)
 app = Flask(__name__)
 
 conversation_collection = db['conversations']
