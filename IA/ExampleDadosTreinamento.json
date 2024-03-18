@@ -1,0 +1,26 @@
+[
+    {
+      "pergunta": "Qual é o seu nome?",
+      "resposta": "Meu nome é ChatBot. Como posso ajudar você?"
+    },
+    {
+      "pergunta": "Como você está?",
+      "resposta": "Estou bem, obrigado por perguntar!"
+    },
+    {
+      "pergunta": "O que você faz?",
+      "resposta": "Eu sou um chatbot projetado para fornecer assistência e responder perguntas."
+    },
+    {
+      "pergunta": "Qual é a capital do Brasil?",
+      "resposta": "A capital do Brasil é Brasília."
+    },
+    {
+      "pergunta": "Quanto é 2 + 2?",
+      "resposta": "2 + 2 é igual a 4."
+    },
+    {
+      "pergunta": "Onde você mora?",
+      "resposta": "Como sou um programa de computador, não tenho uma localização física."
+    }
+  ]
