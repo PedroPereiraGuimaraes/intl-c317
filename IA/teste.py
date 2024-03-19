@@ -3,7 +3,7 @@ from pymongo import MongoClient
 from flask import Flask, request, jsonify
 import datetime
 
-genai.configure(api_key="AIzaSyDgcXeFjCbuGfv_wiG_ZKO9vZ-DFiPCCE4")
+genai.configure(api_key="-")
 
 # Set up the model
 generation_config = {
