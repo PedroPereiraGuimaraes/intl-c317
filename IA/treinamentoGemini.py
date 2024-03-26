@@ -2,8 +2,14 @@ import google.generativeai as genai
 from pymongo import MongoClient
 from flask import Flask, request, jsonify
 import datetime
+import os
+from dotenv import load_dotenv
 
-genai.configure(api_key="-")
+load_dotenv()
+
+api_key = os.getenv('API_KEY')
+
+genai.configure(api_key=api_key)
 
 # Set up the model
 generation_config = {
@@ -32,9 +38,10 @@ safety_settings = [
   },
 ]
 
-model = genai.GenerativeModel(model_name="gemini-1.0-pro",
+model = genai.GenerativeModel(model_name="gemini-1.0-pro-001",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
+
 
 client = MongoClient('localhost', 27017)
 db = client['google_db']
