@@ -70,13 +70,12 @@ def criar_chat():
     data = request.json
     chatId = data['chatId']
     userId = data['userId']
-    message = data['message']
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     # Criar um novo documento para o chat
     conversation_collection.insert_one({
         'chatId': chatId,
-        'messages': [{'idUser': userId, 'message': message, 'response':"",'timestamp': timestamp}]
+        'idUser': userId,
     })
     
     return jsonify({"mensagem": "Chat criado com sucesso!"})
@@ -87,6 +86,7 @@ def receive_message(chatId, UserId):
     data = request.json
     idUser = UserId
     message = data['message']
+    name_user = data['name_user']
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     response = process_message(message)
@@ -94,7 +94,7 @@ def receive_message(chatId, UserId):
     # Atualizar o documento existente correspondente ao chatId
     conversation_collection.update_one(
         {'chatId': chatId},
-        {'$push': {'messages': {'idUser': idUser, 'message': message,'response':response, 'timestamp': timestamp}}}
+        {'$push': {'messages': {'idUser': idUser,'name_user': name_user, 'message': message,'response':response, 'timestamp': timestamp}}}
     )
     
     return jsonify({"response": response})
