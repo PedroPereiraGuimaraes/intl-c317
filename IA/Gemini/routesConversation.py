@@ -86,7 +86,6 @@ def receive_message(chatId, UserId):
     data = request.json
     idUser = UserId
     message = data['message']
-    name_user = data['name_user']
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     response = process_message(message)
@@ -94,7 +93,7 @@ def receive_message(chatId, UserId):
     # Atualizar o documento existente correspondente ao chatId
     conversation_collection.update_one(
         {'chatId': chatId},
-        {'$push': {'messages': {'idUser': idUser,'name_user': name_user, 'message': message,'response':response, 'timestamp': timestamp}}}
+        {'$push': {'messages': {'idUser': idUser, 'message': message,'response':response, 'timestamp': timestamp}}}
     )
     
     return jsonify({"response": response})
