@@ -12,7 +12,7 @@ download("en_core_web_sm")
 class ENGSM:
     ISO_639_1 = 'en_core_web_sm'
 
-chatbot = ChatBot("BotLira",tagger_language=ENGSM)
+chatbot = ChatBot("Bot",tagger_language=ENGSM)
 client = MongoClient('localhost', 27017)
 db = client['chatbot_db']
 collection = db['database']
