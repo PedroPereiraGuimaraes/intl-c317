@@ -210,6 +210,30 @@ class _ChatsPageState extends State<ChatsPage> {
           );
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          final newChat = Chat(
+            idChat: chatMessages.length + 1,
+            idUser: 1,
+            messages: [],
+          );
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatPage(chat: newChat),
+            ),
+          );
+        },
+        backgroundColor: Color.fromARGB(255, 214, 99, 0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
+      ),
     );
   }
 }

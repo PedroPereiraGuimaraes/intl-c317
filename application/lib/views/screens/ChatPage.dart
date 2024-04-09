@@ -52,45 +52,56 @@ class _ChatPageState extends State<ChatPage> {
         backgroundColor: Color.fromARGB(255, 0, 55, 111),
         iconTheme: IconThemeData(color: Colors.white),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              reverse: false,
-              itemCount: messages.length,
-              itemBuilder: (context, index) {
-                final message = messages[index];
-                return buildMessage(message);
-              },
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage(
+              'assets/logobackground.png',
             ),
+            opacity: 0.5,
+            fit: BoxFit.scaleDown,
           ),
-          Container(
-            color: Colors.grey[200],
-            padding: EdgeInsets.all(8),
-            child: Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    onChanged: (text) => newMessage = text,
-                    decoration: InputDecoration(
-                      hintText: 'Digite sua mensagem',
-                      contentPadding:
-                          EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(30),
-                        borderSide: BorderSide(color: Colors.grey[400]!),
+        ),
+        child: Column(
+          children: [
+            Expanded(
+              child: ListView.builder(
+                reverse: false,
+                itemCount: messages.length,
+                itemBuilder: (context, index) {
+                  final message = messages[index];
+                  return buildMessage(message);
+                },
+              ),
+            ),
+            Container(
+              color: Colors.transparent,
+              padding: EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      onChanged: (text) => newMessage = text,
+                      decoration: InputDecoration(
+                        hintText: 'Digite sua mensagem',
+                        contentPadding:
+                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: sendMessage,
-                  icon: Icon(Icons.send, color: Color(0xff075E54)),
-                ),
-              ],
+                  IconButton(
+                    onPressed: sendMessage,
+                    icon: Icon(Icons.send,
+                        color: Color.fromARGB(255, 0, 55, 111)),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
