@@ -41,6 +41,50 @@ class _ChatsPageState extends State<ChatsPage> {
                 ),
               ],
             ),
+
+            // Chat 2
+            Chat(
+              idChat: 2,
+              idUser: 1,
+              messages: [
+                Message(
+                  idChat: 2,
+                  idUser: 1,
+                  sender: 'John Doe',
+                  message: 'Hey! How can I help you today?',
+                  timestamp: '2024-04-09 10:00:00',
+                ),
+                Message(
+                  idChat: 2,
+                  idUser: 1,
+                  sender: 'You',
+                  message: 'Hi John, I need some information about...',
+                  timestamp: '2024-04-09 10:05:00',
+                ),
+              ],
+            ),
+
+            // Chat 3
+            Chat(
+              idChat: 3,
+              idUser: 1,
+              messages: [
+                Message(
+                  idChat: 3,
+                  idUser: 1,
+                  sender: 'Group Chat',
+                  message: 'Welcome to the group chat!',
+                  timestamp: '2024-04-08 18:00:00',
+                ),
+                Message(
+                  idChat: 3,
+                  idUser: 1,
+                  sender: 'You',
+                  message: 'Hello everyone!',
+                  timestamp: '2024-04-08 18:01:00',
+                ),
+              ],
+            ),
           ],
         );
       },
