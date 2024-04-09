@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Coffe Application",
-      initialRoute: '/chats',
+      initialRoute: '/init',
       routes: {
         '/init': (context) => InitPage(),
         '/login': (context) => LoginPage(),
