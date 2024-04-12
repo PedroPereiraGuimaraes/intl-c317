@@ -1,5 +1,6 @@
 import random
 from flask import Blueprint, jsonify, request
+from bson import ObjectId
 from pymongo import MongoClient
 import google.generativeai as genai
 import datetime
@@ -47,6 +48,7 @@ model = genai.GenerativeModel(model_name="gemini-1.0-pro-001",
 client = MongoClient('localhost', 27017)
 db = client['google_db']
 conversation_collection = db['conversation']
+collection = db['prompt_parts']
 
 def verifychat():
       while True:
@@ -98,8 +100,26 @@ def receive_message():
     
     return jsonify({"response": response})
 
-
+"""
 def process_message(message):
     response = model.generate_content(message)
     responseText = response.candidates[0].content.parts[0].text
     return str(responseText)
+"""
+def process_message(message):
+  try:
+    documento = collection.find_one({'name': 'dados_treinamento'})
+
+    if documento:
+      prompt_parts = documento['prompt_parts']
+      prompt_parts.append("User: "+ message)
+      response = model.generate_content(prompt_parts)   
+      responseText = response.candidates[0].content.parts[0].text
+      return str(responseText)
+    else:
+      print("Documento 'dados_treinamento' não encontrado.")
+
+  except Exception as e:
+    print(f"Erro ao adicionar elemento ao final da lista: {e}")
+    # response = model.generate_content(prompt_parts)
+    # print(response.text)
