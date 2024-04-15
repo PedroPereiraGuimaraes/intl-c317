@@ -18,12 +18,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Coffe Application",
-      initialRoute: '/init',
+      initialRoute: '/chats',
       routes: {
         '/init': (context) => InitPage(),
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
-        '/chats': (context) => ChatsPage(),
+        '/chats': (context) => ChatsPage(userId: "661817d42629a1ecf0f0febd"),
       },
       theme: ThemeData(primaryColor: Colors.blue, primarySwatch: Colors.blue),
     );

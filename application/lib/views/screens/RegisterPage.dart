@@ -1,5 +1,8 @@
 // ignore_for_file: depend_on_referenced_packages, prefer_const_constructors
 
+import 'package:application/database/services/userservice.dart';
+import 'package:application/model/User.dart';
+import 'package:application/views/screens/InitPage.dart';
 import 'package:application/views/screens/LoginPage.dart';
 import 'package:application/views/widgets/TextField.dart';
 import 'package:flutter/material.dart';
@@ -18,20 +21,16 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _passwordCheckController =
       TextEditingController();
 
-  RegisterCheck() {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-    String passwordCheck = _passwordCheckController.text;
-
-    if (email == '' && password == '' && passwordCheck == '') {
-      Navigator.pop(context);
+  Future<void> register(String username, String email, String password) async {
+    try {
+      final User newUser =
+          User(0, username: username, email: email, password: password);
+      await createUser(newUser);
       Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => LoginPage(),
-        ),
+        MaterialPageRoute(builder: (context) => InitPage()),
       );
-    } else if (password != passwordCheck) {
+    } on Exception catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -47,50 +46,7 @@ class _RegisterPageState extends State<RegisterPage> {
               ),
             ),
             content: Text(
-              'Senhas inseridas não são iguais. Por favor, tente novamente.',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 17,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'OK',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 214, 99, 0),
-                    fontFamily: GoogleFonts.josefinSans().fontFamily,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text(
-              'ERRO',
-              style: TextStyle(
-                color: Color.fromARGB(255, 214, 99, 0),
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
-            ),
-            content: Text(
-              'Email ou senha incorretos. Por favor, tente novamente.',
+              e.toString(),
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: GoogleFonts.josefinSans().fontFamily,
@@ -196,7 +152,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
-                    RegisterCheck();
+                    register(_emailController.text, _passwordController.text,
+                        _passwordCheckController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 214, 99, 0),

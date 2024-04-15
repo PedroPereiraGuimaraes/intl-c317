@@ -1,9 +1,10 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unrelated_type_equality_checks
 
-import 'package:application/views/screens/ChatsPage.dart';
-import 'package:application/views/widgets/TextField.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:application/views/screens/ChatsPage.dart';
+import 'package:application/views/widgets/TextField.dart';
+import 'package:application/database/services/userservice.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -16,18 +17,17 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  LoginCheck() {
-    String email = _emailController.text;
-    String password = _passwordController.text;
-
-    if (email == '' && password == '') {
+  Future<void> login(String email, String password) async {
+    try {
+      final Map<String, dynamic> response = await loginUser(email, password);
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => ChatsPage(),
-        ),
+            builder: (context) => ChatsPage(
+                  userId: response['id'].toString(),
+                )),
       );
-    } else {
+    } on Exception catch (e) {
       showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
             ),
             content: Text(
-              'Email ou senha incorretos. Por favor, tente novamente.',
+              e.toString(),
               style: TextStyle(
                 color: Colors.black,
                 fontFamily: GoogleFonts.josefinSans().fontFamily,
@@ -146,7 +146,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 80),
                 ElevatedButton(
                   onPressed: () {
-                    LoginCheck();
+                    login(_emailController.text, _passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 214, 99, 0),

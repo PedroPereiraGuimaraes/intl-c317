@@ -1,100 +1,41 @@
-// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings, unnecessary_null_comparison
 
-import 'package:application/model/Message.dart';
-import 'package:application/views/screens/ChatPage.dart';
-import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:flutter/material.dart';
+import 'package:application/model/Chat.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:application/model/ChatMessage.dart';
+import 'package:application/views/screens/ChatPage.dart';
+import 'package:application/database/services/chatservice.dart';
 
 class ChatsPage extends StatefulWidget {
+  final String userId;
+  const ChatsPage({Key? key, required this.userId}) : super(key: key);
+
   @override
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
 class _ChatsPageState extends State<ChatsPage> {
   final int messageLimit = 25;
-  final List<Chat> chatMessages = [];
+  List<Chat> chatList = [];
 
-  Future<void> fetchChatMessages() async {
-    setState(
-      () {
-        chatMessages.addAll(
-          [
-            Chat(
-              idChat: 1,
-              idUser: 1,
-              messages: [
-                Message(
-                  idChat: 1,
-                  idUser: 1,
-                  sender: 'ChatBot',
-                  message: 'Hello!',
-                  timestamp: '2024-04-09 12:00:00',
-                ),
-                Message(
-                  idChat: 1,
-                  idUser: 1,
-                  sender: 'You',
-                  message: 'Opa, como está?',
-                  timestamp: '2024-04-09 12:01:00',
-                ),
-              ],
-            ),
-
-            // Chat 2
-            Chat(
-              idChat: 2,
-              idUser: 1,
-              messages: [
-                Message(
-                  idChat: 2,
-                  idUser: 1,
-                  sender: 'John Doe',
-                  message: 'Hey! How can I help you today?',
-                  timestamp: '2024-04-09 10:00:00',
-                ),
-                Message(
-                  idChat: 2,
-                  idUser: 1,
-                  sender: 'You',
-                  message: 'Hi John, I need some information about...',
-                  timestamp: '2024-04-09 10:05:00',
-                ),
-              ],
-            ),
-
-            // Chat 3
-            Chat(
-              idChat: 3,
-              idUser: 1,
-              messages: [
-                Message(
-                  idChat: 3,
-                  idUser: 1,
-                  sender: 'Group Chat',
-                  message: 'Welcome to the group chat!',
-                  timestamp: '2024-04-08 18:00:00',
-                ),
-                Message(
-                  idChat: 3,
-                  idUser: 1,
-                  sender: 'You',
-                  message: 'Hello everyone!',
-                  timestamp: '2024-04-08 18:01:00',
-                ),
-              ],
-            ),
-          ],
-        );
-      },
-    );
+  Future<void> _getChats() async {
+    final chatsData = await getChatsByID(widget.userId); // Use widget.userId
+    final chats = chatsData.map((chatJson) => Chat.fromJson(chatJson)).toList();
+    setState(() {
+      chatList = chats
+        ..sort((a, b) => b.messages.isNotEmpty
+            ? b.messages.last.timestamp.compareTo(a.messages.isNotEmpty
+                ? a.messages.last.timestamp
+                : DateTime.now())
+            : 1);
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    fetchChatMessages();
+    _getChats();
   }
 
   @override
@@ -115,23 +56,24 @@ class _ChatsPageState extends State<ChatsPage> {
         automaticallyImplyLeading: false,
       ),
       body: ListView.builder(
-        itemCount: chatMessages.length,
+        itemCount: chatList.length,
         itemBuilder: (context, index) {
-          final chatMessage = chatMessages[index];
-          final dateTime = DateTime.parse(chatMessage.messages.last.timestamp);
-          final formattedDate = DateFormat('dd/MM').format(dateTime);
-          final lastMessage = chatMessage.messages.last;
-          final lastMessageText = lastMessage.message;
-          final displayedText = lastMessageText.length > messageLimit
-              ? lastMessageText.substring(0, messageLimit) + "..."
-              : lastMessageText;
+          final chat = chatList[index];
+          final lastMessage =
+              chat.messages.isNotEmpty ? chat.messages.last : null;
+          if (lastMessage == null) return SizedBox();
+          String displayedText = lastMessage.message.length > messageLimit
+              ? lastMessage.message.substring(0, messageLimit) + "..."
+              : lastMessage.message;
+          final formattedDate =
+              DateFormat('dd/MM').format(lastMessage.timestamp);
 
           return ElevatedButton(
             onPressed: () {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ChatPage(chat: chatMessage),
+                  builder: (context) => ChatPage(chat: chat),
                 ),
               );
             },
@@ -168,7 +110,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "CHAT ${chatMessage.idChat.toString()}",
+                          "Chat ${chat.chatId}",
                           style: TextStyle(
                             fontWeight: FontWeight.w900,
                             fontSize: 18,
@@ -177,7 +119,7 @@ class _ChatsPageState extends State<ChatsPage> {
                           ),
                         ),
                         Text(
-                          "${chatMessage.messages[chatMessage.messages.length - 1].sender}: $displayedText",
+                          "Você: $displayedText",
                           style: TextStyle(
                             fontSize: 15,
                             fontFamily: GoogleFonts.josefinSans().fontFamily,
@@ -194,7 +136,7 @@ class _ChatsPageState extends State<ChatsPage> {
                       children: [
                         SizedBox(height: 40),
                         Text(
-                          formattedDate,
+                          "$formattedDate",
                           style: TextStyle(
                             fontSize: 12,
                             fontFamily: GoogleFonts.josefinSans().fontFamily,
@@ -212,18 +154,7 @@ class _ChatsPageState extends State<ChatsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          final newChat = Chat(
-            idChat: chatMessages.length + 1,
-            idUser: 1,
-            messages: [],
-          );
-
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ChatPage(chat: newChat),
-            ),
-          );
+          // TODO: Implementar ação de adicionar novo chat
         },
         backgroundColor: Color.fromARGB(255, 214, 99, 0),
         shape: RoundedRectangleBorder(
