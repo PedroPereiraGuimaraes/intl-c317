@@ -22,7 +22,7 @@ def login():
             response_data = {
                 'id': str(user['_id'])
             }
-            return jsonify({'message': response_data}), 200
+            return response_data, 201
         else:
             return jsonify({'message': 'Email or password incorrect'}), 401
     else:

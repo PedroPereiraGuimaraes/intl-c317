@@ -61,25 +61,52 @@ def criar_chat():
     data = request.json
     chatId = verifychat()
     userId = data['userId']
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
     conversation_collection.insert_one({
         'chatId': chatId,
         'userId': userId,
+        'messages': [{"idUser": userId, "message": "", "response": "Olá, como posso ajudá-lo!", "timestamp": timestamp}],
     })
+
+    chats = list(conversation_collection.find({'chatId': chatId}, {'_id': 0}))
     
-    response_data = {
-      'message': 'Chat created successfully',
-      'chatId': chatId
-    }
-    return jsonify(response_data), 201
+    return jsonify(chats), 201
 
 # GET CHATS BY ID
-@routes_conversation.route('/chats/user', methods=['GET'])
-def get_chats_by_user():
-    data = request.json
-    userId = data['userId']
+@routes_conversation.route('/chats/user/<userId>', methods=['GET'])
+def get_chats_by_user(userId):
     chats = list(conversation_collection.find({'userId': userId}, {'_id': 0}))
-    return jsonify(chats)
+    return jsonify(chats), 200
+
+
+# GET CHAT MESSAGES BY CHAT ID
+@routes_conversation.route('/chats/user/messages/<chatId>', methods=['GET'])
+def get_chat_messages_by_chat_id(chatId):
+    chatId = int(chatId)
+    chat = conversation_collection.find_one({'chatId': chatId}, {'_id': 0})
+    if chat:
+        messages = chat.get('messages', [])
+        return jsonify(messages), 200
+    else:
+        return jsonify({'error': 'Chat not found'}), 404
+    
+# GET ALL CHAT MESSAGES BY CHAT ID
+@routes_conversation.route('/chats/user/messages/<chatId>', methods=['GET'])
+def get_all_chat_messages_by_chat_id(chatId):
+  chatId = int(chatId)
+  chat = conversation_collection.find_one({'chatId': chatId}, {'_id': 0})
+  if chat:
+    messages = chat.get('messages', [])
+    if messages:
+      # Sort messages by timestamp in descending order (newest first)
+      messages.sort(key=lambda message: message.get('timestamp'), reverse=True)
+      return jsonify(messages), 200
+    else:
+      return jsonify({'message': 'Chat has no messages'}), 200  # Informative message
+  else:
+    return jsonify({'error': 'Chat not found'}), 404
+
 
 # SEND MESSAGE
 @routes_conversation.route('/chat/sendquestion', methods=['POST'])
@@ -98,8 +125,19 @@ def receive_message():
     
     return jsonify({"response": response})
 
+# DELETE CHAT BY ID
+@routes_conversation.route('/chat/delete/<chatId>', methods=['DELETE'])
+def delete_chat_by_id(chatId):
+    chatId = int(chatId)
+    deleted_chat = conversation_collection.delete_one({'chatId': chatId})
+    if deleted_chat.deleted_count == 1:
+        return jsonify({'message': 'Chat deleted successfully'}), 200
+    else:
+        return jsonify({'error': 'Chat not found'}), 404
+
 
 def process_message(message):
     response = model.generate_content(message)
+    print(response)
     responseText = response.candidates[0].content.parts[0].text
     return str(responseText)
