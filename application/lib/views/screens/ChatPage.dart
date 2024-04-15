@@ -1,9 +1,11 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
-import 'package:application/database/services/chatservice.dart';
 import 'package:flutter/material.dart';
-import 'package:application/model/Message.dart';
 import 'package:application/model/Chat.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:application/model/Message.dart';
+import 'package:application/views/screens/ChatsPage.dart';
+import 'package:application/database/services/chatservice.dart';
 
 class ChatPage extends StatefulWidget {
   final Chat chat;
@@ -67,15 +69,99 @@ class _ChatPageState extends State<ChatPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "Chat ${widget.chat.chatId}",
+          "CHAT ${widget.chat.chatId}",
           style: TextStyle(
             color: Colors.white,
             fontWeight: FontWeight.bold,
+            fontFamily: GoogleFonts.josefinSans().fontFamily,
+            fontSize: 18,
           ),
         ),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 0, 55, 111),
         iconTheme: IconThemeData(color: Colors.white),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ChatsPage(userId: widget.chat.userId),
+              ),
+            );
+          },
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.delete_outline),
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    backgroundColor: Colors.white,
+                    title: Text(
+                      'DELETAR CHAT',
+                      style: TextStyle(
+                        color: Color.fromARGB(255, 214, 99, 0),
+                        fontFamily: GoogleFonts.josefinSans().fontFamily,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    content: Text(
+                      "Tem certeza que quer apagar o chat?",
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontFamily: GoogleFonts.josefinSans().fontFamily,
+                        fontSize: 17,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        onPressed: () {
+                          deleteChatById(widget.chat.chatId);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ChatsPage(userId: widget.chat.userId),
+                            ),
+                          );
+                        },
+                        child: Text(
+                          'SIM',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 214, 99, 0),
+                            fontFamily: GoogleFonts.josefinSans().fontFamily,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(
+                          'NÃO',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 214, 99, 0),
+                            fontFamily: GoogleFonts.josefinSans().fontFamily,
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
+          ),
+        ],
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -155,28 +241,40 @@ class _ChatPageState extends State<ChatPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            margin: EdgeInsets.only(top: 5, right: 5),
             padding: EdgeInsets.symmetric(
-              vertical: 5,
-              horizontal: 10,
+              vertical: message.message.isEmpty ? 0 : 5,
+              horizontal: message.message.isEmpty ? 0 : 10,
             ),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Color.fromARGB(255, 214, 99, 0),
+              color: message.message.isEmpty
+                  ? Color.fromARGB(255, 0, 55, 111)
+                  : Color.fromARGB(255, 214, 99, 0),
             ),
             child: Text(
-              message.message,
+              message.message.isEmpty
+                  ? ""
+                  : "VOCÊ: ${message.message.toUpperCase()}",
               style: TextStyle(
                 color: Colors.white,
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w500,
+                fontFamily: GoogleFonts.josefinSans().fontFamily,
+                fontSize: 13,
               ),
             ),
           ),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: message.message.isEmpty
+                ? EdgeInsets.all(0)
+                : EdgeInsets.only(top: 10),
             child: Text(
-              message.response,
+              message.response.toUpperCase(),
               style: TextStyle(
                 color: Colors.white,
+                fontFamily: GoogleFonts.josefinSans().fontFamily,
+                fontWeight: FontWeight.w300,
+                fontSize: 13,
               ),
             ),
           ),

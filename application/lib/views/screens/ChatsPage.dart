@@ -20,7 +20,7 @@ class _ChatsPageState extends State<ChatsPage> {
   List<Chat> chatList = [];
 
   Future<void> _getChats() async {
-    final chatsData = await getChatsByID(widget.userId); // Use widget.userId
+    final chatsData = await getChatsByID(widget.userId);
     final chats = chatsData.map((chatJson) => Chat.fromJson(chatJson)).toList();
     setState(() {
       chatList = chats
@@ -30,6 +30,18 @@ class _ChatsPageState extends State<ChatsPage> {
                 : DateTime.now())
             : 1);
     });
+  }
+
+  Future<void> _createNewChat() async {
+    final newChatData = await createNewChat(widget.userId);
+    final chat =
+        newChatData.map((chatJson) => Chat.fromJson(chatJson)).toList();
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatPage(chat: chat.first),
+      ),
+    );
   }
 
   @override
@@ -62,15 +74,13 @@ class _ChatsPageState extends State<ChatsPage> {
           final lastMessage =
               chat.messages.isNotEmpty ? chat.messages.last : null;
           if (lastMessage == null) return SizedBox();
-          String displayedText = lastMessage.message.length > messageLimit
-              ? lastMessage.message.substring(0, messageLimit) + "..."
-              : lastMessage.message;
+          String displayedText = lastMessage.response;
           final formattedDate =
               DateFormat('dd/MM').format(lastMessage.timestamp);
 
           return ElevatedButton(
             onPressed: () {
-              Navigator.push(
+              Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                   builder: (context) => ChatPage(chat: chat),
@@ -119,12 +129,13 @@ class _ChatsPageState extends State<ChatsPage> {
                           ),
                         ),
                         Text(
-                          "Você: $displayedText",
+                          "Chat: $displayedText",
                           style: TextStyle(
                             fontSize: 15,
                             fontFamily: GoogleFonts.josefinSans().fontFamily,
                             color: Color.fromARGB(255, 214, 99, 0),
                           ),
+                          maxLines: 1,
                         ),
                       ],
                     ),
@@ -154,7 +165,7 @@ class _ChatsPageState extends State<ChatsPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          // TODO: Implementar ação de adicionar novo chat
+          _createNewChat();
         },
         backgroundColor: Color.fromARGB(255, 214, 99, 0),
         shape: RoundedRectangleBorder(

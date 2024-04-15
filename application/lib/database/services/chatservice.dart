@@ -37,6 +37,7 @@ Future<List<dynamic>> getMessagesByChatId(int chatId) async {
   }
 }
 
+// SEND MESSAGE TO CHAT
 Future<Map<String, dynamic>> sendMessageToChat(
     int chatId, String userId, String message) async {
   final url = Uri.parse('http://10.0.2.2:5000/chat/sendquestion');
@@ -57,6 +58,48 @@ Future<Map<String, dynamic>> sendMessageToChat(
 
     if (response.statusCode == 200) {
       return jsonDecode(response.body);
+    } else {
+      throw Exception("Request failed with status: ${response.statusCode}");
+    }
+  } catch (e) {
+    throw Exception("Error: $e");
+  }
+}
+
+Future<List<dynamic>> createNewChat(String userId) async {
+  final url = Uri.parse('http://10.0.2.2:5000/chat/create');
+  Map<String, dynamic> data = {
+    'userId': userId,
+  };
+
+  try {
+    final response = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(data),
+    );
+
+    if (response.statusCode == 201) {
+      return jsonDecode(response.body);
+    } else {
+      throw Exception("Request failed with status: ${response.statusCode}");
+    }
+  } catch (e) {
+    throw Exception("Error: $e");
+  }
+}
+
+// DELETE CHAT BY ID
+Future<void> deleteChatById(int chatId) async {
+  final url = Uri.parse('http://10.0.2.2:5000/chat/delete/$chatId');
+
+  try {
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      print('Chat deleted successfully');
     } else {
       throw Exception("Request failed with status: ${response.statusCode}");
     }
