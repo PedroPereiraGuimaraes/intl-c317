@@ -1,10 +1,8 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 import 'package:application/views/screens/LoginPage.dart';
 import 'package:application/views/screens/RegisterPage.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 class InitPage extends StatefulWidget {
   const InitPage({super.key});
@@ -14,24 +12,6 @@ class InitPage extends StatefulWidget {
 }
 
 class _InitPageState extends State<InitPage> {
-  Future<void> _handleGoogleSignIn() async {
-    try {
-      GoogleSignIn _googleSignIn = GoogleSignIn();
-      await _googleSignIn.signIn();
-    } catch (error) {
-      print('Error signing in with Google: $error');
-    }
-  }
-
-  Future<void> _handleFacebookSignIn() async {
-    try {
-      final LoginResult result = await FacebookAuth.instance.login();
-      print(result);
-    } catch (error) {
-      print('Error signing in with Facebook: $error');
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -115,9 +95,7 @@ class _InitPageState extends State<InitPage> {
                   children: [
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          _handleFacebookSignIn();
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color.fromARGB(255, 24, 119, 242),
                           minimumSize: const Size(double.infinity, 50),
@@ -135,9 +113,7 @@ class _InitPageState extends State<InitPage> {
                     SizedBox(width: 20),
                     Expanded(
                       child: ElevatedButton(
-                        onPressed: () {
-                          _handleGoogleSignIn();
-                        },
+                        onPressed: () {},
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.white,
                           minimumSize: const Size(double.infinity, 50),
