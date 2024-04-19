@@ -16,12 +16,14 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordCheckController =
       TextEditingController();
 
-  Future<void> register(String username, String email, String password) async {
+  Future<void> register(String username, String email, String password,
+      String passwordCheck) async {
     try {
       final User newUser =
           User(0, username: username, email: email, password: password);
@@ -93,7 +95,7 @@ class _RegisterPageState extends State<RegisterPage> {
           height: MediaQuery.of(context).size.height,
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.only(bottom: 30, left: 30, right: 30),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +108,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     height: 120,
                   ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 10),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
@@ -133,27 +135,41 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 const SizedBox(height: 20),
                 CustomTextField(
+                    title: "USERNAME",
+                    hint: "USER123",
+                    controller: _usernameController,
+                    icon: Icons.person_outline),
+                const SizedBox(height: 20),
+                CustomTextField(
                     title: "EMAIL",
                     hint: "user@gmail.com",
                     controller: _emailController,
                     icon: Icons.email_outlined),
                 const SizedBox(height: 20),
                 CustomTextField(
-                    title: "PASSWORD",
-                    hint: "**************",
-                    controller: _passwordController,
-                    icon: Icons.key),
+                  title: "PASSWORD",
+                  hint: "**************",
+                  controller: _passwordController,
+                  icon: Icons.key,
+                  isPassword: true,
+                ),
                 const SizedBox(height: 20),
                 CustomTextField(
-                    title: "PASSWORD",
-                    hint: "**************",
-                    controller: _passwordCheckController,
-                    icon: Icons.key),
+                  title: "CONFIRM PASSWORD",
+                  hint: "**************",
+                  controller: _passwordCheckController,
+                  icon: Icons.key,
+                  isPassword: true,
+                ),
                 const SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () {
-                    register(_emailController.text, _passwordController.text,
-                        _passwordCheckController.text);
+                    register(
+                      _usernameController.text,
+                      _emailController.text,
+                      _passwordController.text,
+                      _passwordCheckController.text,
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Color.fromARGB(255, 214, 99, 0),

@@ -131,8 +131,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(height: 20),
                 CustomTextField(
-                    title: "USERNAME",
-                    hint: "USER200",
+                    title: "EMAIL",
+                    hint: "user@email.com",
                     controller: _emailController,
                     icon: Icons.email_outlined),
                 const SizedBox(height: 20),
