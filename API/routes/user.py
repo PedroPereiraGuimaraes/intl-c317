@@ -68,11 +68,11 @@ def get_users():
 # GET USER BY ID
 @routes_user.route('/user/<user_id>', methods=['GET'])
 def get_user(user_id):
-    user = users_collection.find_one({'_id': ObjectId(user_id)})
-    if user:
-        return jsonify({'_id': str(user['_id']), 'username': user['username']})
-    else:
-        return jsonify({'error': 'User not found'}), 404
+    if ObjectId.is_valid(user_id):
+        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        if user:
+            return jsonify({'_id': str(user['_id']), 'username': user['username']})
+    return jsonify({'error': 'User not found'}), 404
 
 # UPDATE USERNAME BY ID
 @routes_user.route('/user/username/<user_id>', methods=['PUT'])
