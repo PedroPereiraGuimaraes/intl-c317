@@ -1,2 +1,7 @@
 /api/routes/.env
 __pycache__
+.env
+.vscode
+.venv
+venv
+.gitignore
