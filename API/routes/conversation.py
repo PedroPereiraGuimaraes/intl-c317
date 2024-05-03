@@ -114,7 +114,7 @@ def get_all_chat_messages_by_chat_id(chatId):
 @routes_conversation.route('/chat/sendquestion', methods=['POST'])
 def receive_message():
     data = request.json
-    chatId = data['chatId']
+    chatId =  int(data['chatId'])
     userId = data['userId']
     message = data['message']
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -122,7 +122,7 @@ def receive_message():
     
     conversation_collection.update_one(
         {'chatId': chatId},
-        {'$push': {'messages': {'idUser': userId, 'message': message,'response':response, 'timestamp': timestamp}}}
+        {'$push': {'messages': {'userId': userId, 'message': message,'response':response, 'timestamp': timestamp}}}
     )
     
     return jsonify({"response": response})
