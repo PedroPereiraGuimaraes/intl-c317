@@ -1,15 +1,15 @@
-// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings, unnecessary_null_comparison
+// ignore_for_file: prefer_const_constructors, depend_on_referenced_packages, prefer_interpolation_to_compose_strings, unnecessary_null_comparison, file_names, use_build_context_synchronously, unnecessary_string_interpolations
 
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:application/model/Chat.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:application/views/screens/ChatPage.dart';
 import 'package:application/database/services/chatservice.dart';
+import 'package:application/views/widgets/TextStyles.dart';
 
 class ChatsPage extends StatefulWidget {
   final String userId;
-  const ChatsPage({Key? key, required this.userId}) : super(key: key);
+  const ChatsPage({super.key, required this.userId});
 
   @override
   State<ChatsPage> createState() => _ChatsPageState();
@@ -56,12 +56,7 @@ class _ChatsPageState extends State<ChatsPage> {
       appBar: AppBar(
         title: Text(
           'CONVERSAS',
-          style: TextStyle(
-            fontWeight: FontWeight.w900,
-            fontSize: 20,
-            fontFamily: GoogleFonts.josefinSans().fontFamily,
-            color: Colors.white,
-          ),
+          style: text(20, FontWeight.w900, Colors.white, TextDecoration.none),
         ),
         backgroundColor: Color.fromARGB(255, 0, 55, 111),
         centerTitle: true,
@@ -87,14 +82,7 @@ class _ChatsPageState extends State<ChatsPage> {
                 ),
               );
             },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0),
-              ),
-              elevation: 0,
-              padding: EdgeInsets.all(10),
-            ),
+            style: button(Colors.white),
             child: Container(
               padding: EdgeInsets.all(5),
               decoration: BoxDecoration(
@@ -121,20 +109,11 @@ class _ChatsPageState extends State<ChatsPage> {
                       children: [
                         Text(
                           "Chat ${chat.chatId}",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w900,
-                            fontSize: 18,
-                            fontFamily: GoogleFonts.josefinSans().fontFamily,
-                            color: Color.fromARGB(255, 0, 55, 111),
-                          ),
+                          style: text(18, FontWeight.w900, Color.fromARGB(255, 0, 55, 111), TextDecoration.none),  
                         ),
                         Text(
                           "Chat: $displayedText",
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontFamily: GoogleFonts.josefinSans().fontFamily,
-                            color: Color.fromARGB(255, 214, 99, 0),
-                          ),
+                          style: text(15, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),   
                           maxLines: 1,
                         ),
                       ],
@@ -148,11 +127,7 @@ class _ChatsPageState extends State<ChatsPage> {
                         SizedBox(height: 40),
                         Text(
                           "$formattedDate",
-                          style: TextStyle(
-                            fontSize: 12,
-                            fontFamily: GoogleFonts.josefinSans().fontFamily,
-                            color: Color.fromARGB(255, 214, 99, 0),
-                          ),
+                          style: text(12, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                         ),
                       ],
                     ),

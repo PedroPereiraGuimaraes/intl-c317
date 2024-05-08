@@ -1,16 +1,16 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, file_names, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:application/model/Chat.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:application/model/Message.dart';
 import 'package:application/views/screens/ChatsPage.dart';
 import 'package:application/database/services/chatservice.dart';
+import 'package:application/views/widgets/TextStyles.dart';
 
 class ChatPage extends StatefulWidget {
   final Chat chat;
 
-  const ChatPage({Key? key, required this.chat}) : super(key: key);
+  const ChatPage({super.key, required this.chat});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -70,12 +70,7 @@ class _ChatPageState extends State<ChatPage> {
       appBar: AppBar(
         title: Text(
           "CHAT ${widget.chat.chatId}",
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-            fontFamily: GoogleFonts.josefinSans().fontFamily,
-            fontSize: 18,
-          ),
+          style: text(18, FontWeight.bold, Color.fromARGB(255, 255, 255, 255), TextDecoration.none),
         ),
         centerTitle: true,
         backgroundColor: Color.fromARGB(255, 0, 55, 111),
@@ -103,21 +98,11 @@ class _ChatPageState extends State<ChatPage> {
                     backgroundColor: Colors.white,
                     title: Text(
                       'DELETAR CHAT',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 214, 99, 0),
-                        fontFamily: GoogleFonts.josefinSans().fontFamily,
-                        fontSize: 20,
-                        fontWeight: FontWeight.w400,
-                      ),
+                      style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                     ),
                     content: Text(
                       "Tem certeza que quer apagar o chat?",
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontFamily: GoogleFonts.josefinSans().fontFamily,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w300,
-                      ),
+                      style: text(17, FontWeight.w300, Colors.black, TextDecoration.none),
                     ),
                     actions: <Widget>[
                       TextButton(
@@ -133,12 +118,7 @@ class _ChatPageState extends State<ChatPage> {
                         },
                         child: Text(
                           'SIM',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 214, 99, 0),
-                            fontFamily: GoogleFonts.josefinSans().fontFamily,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                         ),
                       ),
                       TextButton(
@@ -147,12 +127,7 @@ class _ChatPageState extends State<ChatPage> {
                         },
                         child: Text(
                           'NÃO',
-                          style: TextStyle(
-                            color: Color.fromARGB(255, 214, 99, 0),
-                            fontFamily: GoogleFonts.josefinSans().fontFamily,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
-                          ),
+                          style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                         ),
                       ),
                     ],
@@ -256,12 +231,7 @@ class _ChatPageState extends State<ChatPage> {
               message.message.isEmpty
                   ? ""
                   : "VOCÊ: ${message.message.toUpperCase()}",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 13,
-              ),
+              style: text(13, FontWeight.w500, Colors.white, TextDecoration.none),
             ),
           ),
           Container(
@@ -270,22 +240,14 @@ class _ChatPageState extends State<ChatPage> {
                 : EdgeInsets.only(top: 10),
             child: Text(
               message.response.toUpperCase(),
-              style: TextStyle(
-                color: Colors.white,
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontWeight: FontWeight.w300,
-                fontSize: 13,
-              ),
+              style: text(13, FontWeight.w300, Colors.white, TextDecoration.none),
             ),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
               message.timestamp.toString().substring(11, 16),
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-              ),
+              style: text(12, FontWeight.normal, Colors.white, TextDecoration.none),
             ),
           ),
         ],

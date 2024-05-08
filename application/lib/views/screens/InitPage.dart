@@ -1,5 +1,6 @@
-// ignore_for_file: prefer_const_constructors
+// ignore_for_file: prefer_const_constructors, file_names
 
+import 'package:application/views/widgets/TextStyles.dart';
 import 'package:flutter/material.dart';
 import 'package:application/views/screens/LoginPage.dart';
 import 'package:application/views/screens/RegisterPage.dart';
@@ -35,7 +36,7 @@ class _InitPageState extends State<InitPage> {
                     height: 150,
                   ),
                 ),
-                const SizedBox(height: 80),
+                SizedBox(height: 80),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -45,22 +46,11 @@ class _InitPageState extends State<InitPage> {
                       ),
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 214, 99, 0),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  child: const Text(
+                  style: button(Color.fromARGB(255, 214, 99, 0)),
+                  child: Text(
                     'LOGIN',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Josefin Sans',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
+                    style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
+                ),
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -72,21 +62,10 @@ class _InitPageState extends State<InitPage> {
                       ),
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 214, 99, 0),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  child: const Text(
+                  style: button(Color.fromARGB(255, 214, 99, 0)),
+                  child: Text(
                     'CADASTRO',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Josefin Sans',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
                   ),
                 ),
                 SizedBox(height: 20),
@@ -96,13 +75,7 @@ class _InitPageState extends State<InitPage> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Color.fromARGB(255, 24, 119, 242),
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                          ),
-                        ),
+                        style: button(Color.fromARGB(255, 24, 119, 242)),
                         child: Icon(
                           Icons.facebook,
                           color: Colors.white,
@@ -114,17 +87,7 @@ class _InitPageState extends State<InitPage> {
                     Expanded(
                       child: ElevatedButton(
                         onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          minimumSize: const Size(double.infinity, 50),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(0),
-                            side: BorderSide(
-                              color: Colors.grey,
-                              width: 2,
-                            ),
-                          ),
-                        ),
+                        style: button(Colors.white),
                         child: Image.asset(
                           'assets/google.png',
                           width: 25,

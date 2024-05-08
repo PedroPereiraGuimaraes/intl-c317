@@ -1,12 +1,11 @@
-// ignore_for_file: depend_on_referenced_packages, prefer_const_constructors
+// ignore_for_file: depend_on_referenced_packages, prefer_const_constructors, use_build_context_synchronously, file_names
 
 import 'package:application/database/services/userservice.dart';
 import 'package:application/model/User.dart';
 import 'package:application/views/screens/InitPage.dart';
 import 'package:application/views/screens/LoginPage.dart';
-import 'package:application/views/widgets/TextField.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:application/views/widgets/TextStyles.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -19,8 +18,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordCheckController =
-      TextEditingController();
+  final TextEditingController _passwordCheckController = TextEditingController();
 
   Future<void> register(String username, String email, String password,
       String passwordCheck) async {
@@ -40,21 +38,11 @@ class _RegisterPageState extends State<RegisterPage> {
             backgroundColor: Colors.white,
             title: Text(
               'ERRO',
-              style: TextStyle(
-                color: Color.fromARGB(255, 214, 99, 0),
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
-              ),
+              style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
             ),
             content: Text(
               e.toString(),
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 17,
-                fontWeight: FontWeight.w300,
-              ),
+              style: text(17, FontWeight.w300, Colors.black, TextDecoration.none),
             ),
             actions: <Widget>[
               TextButton(
@@ -63,12 +51,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 child: Text(
                   'OK',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 214, 99, 0),
-                    fontFamily: GoogleFonts.josefinSans().fontFamily,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                 ),
               ),
             ],
@@ -113,24 +96,14 @@ class _RegisterPageState extends State<RegisterPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Continue com seu',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: GoogleFonts.josefinSans().fontFamily,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Cadastro',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 214, 99, 0),
-                      fontFamily: GoogleFonts.josefinSans().fontFamily,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -171,21 +144,10 @@ class _RegisterPageState extends State<RegisterPage> {
                       _passwordCheckController.text,
                     );
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 214, 99, 0),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
-                  ),
-                  child: const Text(
+                  style: button(Color.fromARGB(255, 214, 99, 0)),
+                  child: Text(
                     'REGISTRAR',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Josefin Sans',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
                   ),
                 ),
                 TextButton(
@@ -201,12 +163,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Já tem uma conta?',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 214, 99, 0),
-                        fontFamily: GoogleFonts.josefinSans().fontFamily,
-                        fontSize: 15,
-                        decoration: TextDecoration.underline,
-                      ),
+                      style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
                     ),
                   ),
                 ),

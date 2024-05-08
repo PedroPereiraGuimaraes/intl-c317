@@ -1,9 +1,8 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unrelated_type_equality_checks
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unrelated_type_equality_checks, use_build_context_synchronously, file_names
 
+import 'package:application/views/widgets/TextStyles.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:application/views/screens/ChatsPage.dart';
-import 'package:application/views/widgets/TextField.dart';
 import 'package:application/database/services/userservice.dart';
 
 class LoginPage extends StatefulWidget {
@@ -17,61 +16,46 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> login(String email, String password) async {
-    try {
-      final Map<String, dynamic> response = await loginUser(email, password);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => ChatsPage(
-                  userId: response['id'].toString(),
-                )),
-      );
-    } on Exception catch (e) {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Colors.white,
-            title: Text(
-              'ERRO',
-              style: TextStyle(
-                color: Color.fromARGB(255, 214, 99, 0),
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 20,
-                fontWeight: FontWeight.w400,
+  Future<void> login(BuildContext context, String email, String password) async {
+  try {
+    final Map<String, dynamic> response = await loginUser(email, password);
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => ChatsPage(
+                userId: response['id'].toString(),
+              )),
+    );
+  } on Exception catch (e) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          title: Text(
+            'ERRO',
+            style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+          ),
+          content: Text(
+            e.toString(),
+            style: text(17, FontWeight.w300, Color.fromARGB(0,0,0,0), TextDecoration.none),
+          ),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(
+                'OK',
+                style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
               ),
             ),
-            content: Text(
-              e.toString(),
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: GoogleFonts.josefinSans().fontFamily,
-                fontSize: 17,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(
-                  'OK',
-                  style: TextStyle(
-                    color: Color.fromARGB(255, 214, 99, 0),
-                    fontFamily: GoogleFonts.josefinSans().fontFamily,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-              ),
-            ],
-          );
-        },
-      );
-    }
+          ],
+        );
+      },
+    );
   }
+}
 
   @override
   Widget build(BuildContext context) {
@@ -109,24 +93,14 @@ class _LoginPageState extends State<LoginPage> {
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'Continue com seu',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontFamily: GoogleFonts.josefinSans().fontFamily,
-                      fontSize: 22,
-                      fontWeight: FontWeight.w300,
-                    ),
+                    style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
                   ),
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Text(
                     'LOGIN',
-                    style: TextStyle(
-                      color: Color.fromARGB(255, 214, 99, 0),
-                      fontFamily: GoogleFonts.josefinSans().fontFamily,
-                      fontSize: 25,
-                      fontWeight: FontWeight.w900,
-                    ),
+                    style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                   ),
                 ),
                 const SizedBox(height: 20),
@@ -138,7 +112,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 20),
                 CustomTextField(
                   title: "PASSWORD",
-                  hint: "'*****************',",
+                  hint: "'*****************'",
                   controller: _passwordController,
                   icon: Icons.remove_red_eye_outlined,
                   isPassword: true,
@@ -146,25 +120,14 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 80),
                 ElevatedButton(
                   onPressed: () {
-                    login(_emailController.text, _passwordController.text);
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Color.fromARGB(255, 214, 99, 0),
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                    login(context, _emailController.text, _passwordController.text);
+                    },
+                    style: button(Color.fromARGB(255, 214, 99, 0)),
+                    child: Text(
+                      'LOGIN',
+                      style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
+                      ),
                     ),
-                  ),
-                  child: const Text(
-                    'LOGIN',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Josefin Sans',
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                    ),
-                  ),
-                ),
                 TextButton(
                   onPressed: () {
                     //implementar ação de redefinir senha
@@ -172,12 +135,7 @@ class _LoginPageState extends State<LoginPage> {
                   child: RichText(
                     text: TextSpan(
                       text: 'Esqueci minha senha',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 214, 99, 0),
-                        fontFamily: GoogleFonts.josefinSans().fontFamily,
-                        fontSize: 15,
-                        decoration: TextDecoration.underline,
-                      ),
+                      style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
                     ),
                   ),
                 ),
@@ -189,3 +147,4 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
+
