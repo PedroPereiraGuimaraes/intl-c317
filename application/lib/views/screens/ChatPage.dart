@@ -66,129 +66,146 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "CHAT ${widget.chat.chatId}",
-          style: text(18, FontWeight.bold, Color.fromARGB(255, 255, 255, 255), TextDecoration.none),
-        ),
-        centerTitle: true,
-        backgroundColor: Color.fromARGB(255, 0, 55, 111),
-        iconTheme: IconThemeData(color: Colors.white),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context);
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ChatsPage(userId: widget.chat.userId),
-              ),
-            );
-          },
-        ),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.delete_outline),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "CHAT ${widget.chat.chatId}",
+            style: text(18, FontWeight.bold, Color.fromARGB(255, 255, 255, 255),
+                TextDecoration.none),
+          ),
+          centerTitle: true,
+          backgroundColor: Color.fromARGB(255, 0, 55, 111),
+          iconTheme: IconThemeData(color: Colors.white),
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back),
             onPressed: () {
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    backgroundColor: Colors.white,
-                    title: Text(
-                      'DELETAR CHAT',
-                      style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
-                    ),
-                    content: Text(
-                      "Tem certeza que quer apagar o chat?",
-                      style: text(17, FontWeight.w300, Colors.black, TextDecoration.none),
-                    ),
-                    actions: <Widget>[
-                      TextButton(
-                        onPressed: () {
-                          deleteChatById(widget.chat.chatId);
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  ChatsPage(userId: widget.chat.userId),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          'SIM',
-                          style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Text(
-                          'NÃO',
-                          style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
-                        ),
-                      ),
-                    ],
-                  );
-                },
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ChatsPage(userId: widget.chat.userId),
+                ),
               );
             },
           ),
-        ],
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage(
-              'assets/logobackground.png',
+          actions: [
+            IconButton(
+              icon: Icon(Icons.delete_outline),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      backgroundColor: Colors.white,
+                      title: Text(
+                        'DELETAR CHAT',
+                        style: text(
+                            20,
+                            FontWeight.w400,
+                            Color.fromARGB(255, 214, 99, 0),
+                            TextDecoration.none),
+                      ),
+                      content: Text(
+                        "Tem certeza que quer apagar o chat?",
+                        style: text(17, FontWeight.w300, Colors.black,
+                            TextDecoration.none),
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          onPressed: () {
+                            deleteChatById(widget.chat.chatId);
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ChatsPage(userId: widget.chat.userId),
+                              ),
+                            );
+                          },
+                          child: Text(
+                            'SIM',
+                            style: text(
+                                15,
+                                FontWeight.w300,
+                                Color.fromARGB(255, 214, 99, 0),
+                                TextDecoration.none),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: Text(
+                            'NÃO',
+                            style: text(
+                                15,
+                                FontWeight.w300,
+                                Color.fromARGB(255, 214, 99, 0),
+                                TextDecoration.none),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-            opacity: 0.5,
-            fit: BoxFit.scaleDown,
-          ),
+          ],
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: ListView.builder(
-                reverse: false,
-                itemCount: messages.length,
-                itemBuilder: (context, index) {
-                  final message = messages[index];
-                  return buildMessage(message);
-                },
+        body: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage(
+                'assets/logobackground.png',
               ),
+              opacity: 0.5,
+              fit: BoxFit.scaleDown,
             ),
-            Container(
-              color: Colors.transparent,
-              padding: EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _messageController,
-                      decoration: InputDecoration(
-                        hintText: 'Digite sua mensagem',
-                        contentPadding:
-                            EdgeInsets.symmetric(vertical: 10, horizontal: 15),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
+          ),
+          child: Column(
+            children: [
+              Expanded(
+                child: ListView.builder(
+                  reverse: false,
+                  itemCount: messages.length,
+                  itemBuilder: (context, index) {
+                    final message = messages[index];
+                    return buildMessage(message);
+                  },
+                ),
+              ),
+              Container(
+                color: Colors.transparent,
+                padding: EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: TextField(
+                        controller: _messageController,
+                        decoration: InputDecoration(
+                          hintText: 'Digite sua mensagem',
+                          contentPadding: EdgeInsets.symmetric(
+                              vertical: 10, horizontal: 15),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: sendMessage,
-                    icon: Icon(
-                      Icons.send,
-                      color: Color.fromARGB(255, 0, 55, 111),
+                    IconButton(
+                      onPressed: sendMessage,
+                      icon: Icon(
+                        Icons.send,
+                        color: Color.fromARGB(255, 0, 55, 111),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -231,7 +248,8 @@ class _ChatPageState extends State<ChatPage> {
               message.message.isEmpty
                   ? ""
                   : "VOCÊ: ${message.message.toUpperCase()}",
-              style: text(13, FontWeight.w500, Colors.white, TextDecoration.none),
+              style:
+                  text(13, FontWeight.w500, Colors.white, TextDecoration.none),
             ),
           ),
           Container(
@@ -240,14 +258,16 @@ class _ChatPageState extends State<ChatPage> {
                 : EdgeInsets.only(top: 10),
             child: Text(
               message.response.toUpperCase(),
-              style: text(13, FontWeight.w300, Colors.white, TextDecoration.none),
+              style:
+                  text(13, FontWeight.w300, Colors.white, TextDecoration.none),
             ),
           ),
           Align(
             alignment: Alignment.bottomRight,
             child: Text(
               message.timestamp.toString().substring(11, 16),
-              style: text(12, FontWeight.normal, Colors.white, TextDecoration.none),
+              style: text(
+                  12, FontWeight.normal, Colors.white, TextDecoration.none),
             ),
           ),
         ],

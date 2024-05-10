@@ -59,87 +59,90 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: IconThemeData(
-          color: Color.fromARGB(255, 214, 99, 0),
-          size: 25,
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: IconThemeData(
+            color: Color.fromARGB(255, 214, 99, 0),
+            size: 25,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.all(30.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Image.asset(
-                    'assets/logo.png',
-                    width: 120,
-                    height: 120,
+        body: SingleChildScrollView(
+          child: Container(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height,
+            color: Colors.white,
+            child: Padding(
+              padding: const EdgeInsets.all(30.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Image.asset(
+                      'assets/logo.png',
+                      width: 120,
+                      height: 120,
+                    ),
                   ),
-                ),
-                SizedBox(height: 40),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'Continue com seu',
-                    style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
+                  SizedBox(height: 40),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Continue com seu',
+                      style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
+                    ),
                   ),
-                ),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    'LOGIN',
-                    style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                CustomTextField(
-                    title: "EMAIL",
-                    hint: "user@email.com",
-                    controller: _emailController,
-                    icon: Icons.email_outlined),
-                const SizedBox(height: 20),
-                CustomTextField(
-                  title: "PASSWORD",
-                  hint: "'*****************'",
-                  controller: _passwordController,
-                  icon: Icons.remove_red_eye_outlined,
-                  isPassword: true,
-                ),
-                const SizedBox(height: 80),
-                ElevatedButton(
-                  onPressed: () {
-                    login(context, _emailController.text, _passwordController.text);
-                    },
-                    style: button(Color.fromARGB(255, 214, 99, 0)),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Text(
                       'LOGIN',
-                      style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
-                      ),
-                    ),
-                TextButton(
-                  onPressed: () {
-                    //implementar ação de redefinir senha
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Esqueci minha senha',
-                      style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
+                      style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                     ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                      title: "EMAIL",
+                      hint: "user@email.com",
+                      controller: _emailController,
+                      icon: Icons.email_outlined),
+                  const SizedBox(height: 20),
+                  CustomTextField(
+                    title: "PASSWORD",
+                    hint: "'*****************'",
+                    controller: _passwordController,
+                    icon: Icons.remove_red_eye_outlined,
+                    isPassword: true,
+                  ),
+                  const SizedBox(height: 80),
+                  ElevatedButton(
+                    onPressed: () {
+                      login(context, _emailController.text, _passwordController.text);
+                      },
+                      style: button(Color.fromARGB(255, 214, 99, 0)),
+                      child: Text(
+                        'LOGIN',
+                        style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
+                        ),
+                      ),
+                  TextButton(
+                    onPressed: () {
+                      //implementar ação de redefinir senha
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Esqueci minha senha',
+                        style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
