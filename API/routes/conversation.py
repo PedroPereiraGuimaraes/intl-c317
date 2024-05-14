@@ -1,11 +1,10 @@
 import random
 from flask import Blueprint, jsonify, request
-from bson import ObjectId
-from pymongo import MongoClient
 import google.generativeai as genai
 import datetime
 import os
 from dotenv import load_dotenv
+from database.db_connection import Database
 
 routes_conversation = Blueprint('routes1', __name__)
 load_dotenv()
@@ -45,15 +44,13 @@ model = genai.GenerativeModel(model_name="gemini-1.0-pro-001",
                               generation_config=generation_config,
                               safety_settings=safety_settings)
 
-client = MongoClient('localhost', 27017)
-db = client['google_db']
-conversation_collection = db['conversation']
-collection = db['prompt_parts']
+db_conversation = Database(database="chat", collection="conversation")
+db_prompt_parts = Database(database="chat", collection="prompt_parts")
 
 def verifychat():
       while True:
         chatId = random.randint(0, 99999999)
-        existing_chat = conversation_collection.find_one({"chatId": chatId})
+        existing_chat = db_conversation.collection.find_one({"chatId": chatId})
         if not existing_chat:
           return chatId 
 
@@ -65,20 +62,20 @@ def criar_chat():
     userId = data['userId']
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     
-    conversation_collection.insert_one({
+    db_conversation.collection.insert_one({
         'chatId': chatId,
         'userId': userId,
         'messages': [{"idUser": userId, "message": "", "response": "Olá, como posso ajudá-lo!", "timestamp": timestamp}],
     })
 
-    chats = list(conversation_collection.find({'chatId': chatId}, {'_id': 0}))
+    chats = list(db_conversation.collection.find({'chatId': chatId}, {'_id': 0}))
     
     return jsonify(chats), 201
 
 # GET CHATS BY ID
 @routes_conversation.route('/chats/user/<userId>', methods=['GET'])
 def get_chats_by_user(userId):
-    chats = list(conversation_collection.find({'userId': userId}, {'_id': 0}))
+    chats = list(db_conversation.collection.find({'userId': userId}, {'_id': 0}))
     return jsonify(chats), 200
 
 
@@ -86,7 +83,7 @@ def get_chats_by_user(userId):
 @routes_conversation.route('/chats/user/messages/<chatId>', methods=['GET'])
 def get_chat_messages_by_chat_id(chatId):
     chatId = int(chatId)
-    chat = conversation_collection.find_one({'chatId': chatId}, {'_id': 0})
+    chat = db_conversation.collection.find_one({'chatId': chatId}, {'_id': 0})
     if chat:
         messages = chat.get('messages', [])
         return jsonify(messages), 200
@@ -97,7 +94,7 @@ def get_chat_messages_by_chat_id(chatId):
 @routes_conversation.route('/chats/user/messages/<chatId>', methods=['GET'])
 def get_all_chat_messages_by_chat_id(chatId):
   chatId = int(chatId)
-  chat = conversation_collection.find_one({'chatId': chatId}, {'_id': 0})
+  chat = db_conversation.collection.find_one({'chatId': chatId}, {'_id': 0})
   if chat:
     messages = chat.get('messages', [])
     if messages:
@@ -120,7 +117,7 @@ def receive_message():
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     response = process_message(message)
     
-    conversation_collection.update_one(
+    db_conversation.collection.update_one(
         {'chatId': chatId},
         {'$push': {'messages': {'userId': userId, 'message': message,'response':response, 'timestamp': timestamp}}}
     )
@@ -131,7 +128,7 @@ def receive_message():
 @routes_conversation.route('/chat/delete/<chatId>', methods=['DELETE'])
 def delete_chat_by_id(chatId):
     chatId = int(chatId)
-    deleted_chat = conversation_collection.delete_one({'chatId': chatId})
+    deleted_chat = db_conversation.collection.delete_one({'chatId': chatId})
     if deleted_chat.deleted_count == 1:
         return jsonify({'message': 'Chat deleted successfully'}), 200
     else:
@@ -140,7 +137,7 @@ def delete_chat_by_id(chatId):
 
 def process_message(message):
   try:
-    documento = collection.find_one({'name': 'dados_treinamento'})
+    documento = db_prompt_parts.collection.find_one({'name': 'dados_treinamento'})
 
     if documento:
       prompt_parts = documento['prompt_parts']

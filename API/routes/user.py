@@ -1,12 +1,10 @@
-from pymongo import MongoClient
 from flask import Blueprint, jsonify, request
+from database.db_connection import Database
 from bson import ObjectId
 
 routes_user = Blueprint('routes2', __name__)
 
-client = MongoClient('localhost', 27017)
-db = client['google_db']
-users_collection = db['users']
+db = Database(database="chat", collection="users")
 
 # LOGIN USER
 @routes_user.route('/user/login', methods=['POST'])
@@ -16,7 +14,7 @@ def login():
     password = data.get('password')
 
     if email and password:
-        user = users_collection.find_one({'email': email, 'password': password})
+        user = db.collection.find_one({'email': email, 'password': password})
 
         if user:
             response_data = {
@@ -39,7 +37,7 @@ def create_user():
     if not (username and email and password):
         return jsonify({'error': 'Username, email, and password are required'}), 400
 
-    existing_user = users_collection.find_one({'$or': [{'email': email}, {'username': username}]})
+    existing_user = db.collection.find_one({'$or': [{'email': email}, {'username': username}]})
 
     if existing_user is not None:
         return jsonify({'message': 'Username or email already exists'}), 409
@@ -50,7 +48,7 @@ def create_user():
             'email': email
         }
 
-        users_collection.insert_one(new_user_data).inserted_id
+        db.collection.insert_one(new_user_data).inserted_id
 
         response_data = {
             'message': 'User created successfully',
@@ -61,7 +59,7 @@ def create_user():
 @routes_user.route('/users', methods=['GET'])
 def get_users():
     users = []
-    for user in users_collection.find():
+    for user in db.collection.find():
         users.append({'_id': str(user['_id']), 'username': user['username']})
     return jsonify(users)
 
@@ -69,7 +67,7 @@ def get_users():
 @routes_user.route('/user/<user_id>', methods=['GET'])
 def get_user(user_id):
     if ObjectId.is_valid(user_id):
-        user = users_collection.find_one({'_id': ObjectId(user_id)})
+        user = db.collection.find_one({'_id': ObjectId(user_id)})
         if user:
             return jsonify({'_id': str(user['_id']), 'username': user['username']})
     return jsonify({'error': 'User not found'}), 404
@@ -80,7 +78,7 @@ def update_user(user_id):
     data = request.json
     username = data.get('username')
     if username :
-        updated_user = users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'username': username}})
+        updated_user = db.collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'username': username}})
         if updated_user.modified_count:
             return jsonify({'message': 'User updated successfully'})
         else:
@@ -94,7 +92,7 @@ def update_user_password(user_id):
     data = request.json
     password = data.get('password')
     if password:
-        updated_user = users_collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'password': password}})
+        updated_user = db.collection.update_one({'_id': ObjectId(user_id)}, {'$set': {'password': password}})
         if updated_user.modified_count:
             return jsonify({'message': 'Password updated successfully'})
         else:
