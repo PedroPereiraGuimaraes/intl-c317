@@ -6,7 +6,11 @@ services:
     build:
       context: .
     ports:
-      - 5000:5000
+      - 8000:8000
     environment:
       - DB_USER=chatuser
       - DB_PASSWORD=v6EJu2zqxlDM3GfQ
+
+networks:
+  api-network:
+    external: true

@@ -5,5 +5,5 @@ __pycache__
 .venv
 venv
 .gitignore
-docker-compose.yml
+docker-compose.yaml
 Dockerfile
