@@ -16,46 +16,51 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> login(BuildContext context, String email, String password) async {
-  try {
-    final Map<String, dynamic> response = await loginUser(email, password);
-    Navigator.push(
-      context,
-      MaterialPageRoute(
+  Future<void> login(
+      BuildContext context, String email, String password) async {
+    try {
+      final Map<String, dynamic> response = await loginUser(email, password);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
           builder: (context) => ChatsPage(
-                userId: response['id'].toString(),
-              )),
-    );
-  } on Exception catch (e) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          title: Text(
-            'ERRO',
-            style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+            userId: response['id'].toString(),
           ),
-          content: Text(
-            e.toString(),
-            style: text(17, FontWeight.w300, Color.fromARGB(0,0,0,0), TextDecoration.none),
-          ),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text(
-                'OK',
-                style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
-              ),
+        ),
+      );
+    } on Exception catch (e) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Colors.white,
+            title: Text(
+              'ERRO',
+              style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0),
+                  TextDecoration.none),
             ),
-          ],
-        );
-      },
-    );
+            content: Text(
+              e.toString(),
+              style: text(17, FontWeight.w300, Color.fromARGB(0, 0, 0, 0),
+                  TextDecoration.none),
+            ),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text(
+                  'OK',
+                  style: text(15, FontWeight.w300,
+                      Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
-}
 
   @override
   Widget build(BuildContext context) {
@@ -95,14 +100,16 @@ class _LoginPageState extends State<LoginPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Continue com seu',
-                      style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
+                      style: text(22, FontWeight.w300, Colors.black,
+                          TextDecoration.none),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'LOGIN',
-                      style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+                      style: text(25, FontWeight.w900,
+                          Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -122,14 +129,16 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 80),
                   ElevatedButton(
                     onPressed: () {
-                      login(context, _emailController.text, _passwordController.text);
-                      },
-                      style: button(Color.fromARGB(255, 214, 99, 0)),
-                      child: Text(
-                        'LOGIN',
-                        style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
-                        ),
-                      ),
+                      login(context, _emailController.text,
+                          _passwordController.text);
+                    },
+                    style: button(Color.fromARGB(255, 214, 99, 0)),
+                    child: Text(
+                      'LOGIN',
+                      style: text(20, FontWeight.w300, Colors.white,
+                          TextDecoration.none),
+                    ),
+                  ),
                   TextButton(
                     onPressed: () {
                       //implementar ação de redefinir senha
@@ -137,7 +146,11 @@ class _LoginPageState extends State<LoginPage> {
                     child: RichText(
                       text: TextSpan(
                         text: 'Esqueci minha senha',
-                        style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
+                        style: text(
+                            20,
+                            FontWeight.normal,
+                            Color.fromARGB(255, 214, 99, 0),
+                            TextDecoration.underline),
                       ),
                     ),
                   ),
@@ -150,4 +163,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-

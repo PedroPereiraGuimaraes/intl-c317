@@ -8,12 +8,6 @@ import 'package:application/views/screens/ChatPage.dart';
 import 'package:application/database/services/chatservice.dart';
 import 'package:application/views/widgets/TextStyles.dart';
 
-void main() async {
-  runApp(const ChatsPage(
-    userId: '',
-  ));
-}
-
 class ChatsPage extends StatefulWidget {
   final String userId;
   const ChatsPage({super.key, required this.userId});
@@ -28,7 +22,9 @@ class _ChatsPageState extends State<ChatsPage> {
 
   Future<void> _getChats() async {
     final chatsData = await getChatsByID(widget.userId);
+    print(chatsData);
     final chats = chatsData.map((chatJson) => Chat.fromJson(chatJson)).toList();
+
     setState(() {
       chatList = chats
         ..sort((a, b) => b.messages.isNotEmpty
@@ -68,14 +64,15 @@ class _ChatsPageState extends State<ChatsPage> {
             backgroundColor: Color.fromARGB(255, 0, 55, 111),
             automaticallyImplyLeading: false,
             iconTheme: IconThemeData(color: Colors.white),
+            centerTitle: true,
             title: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const <Widget>[
                 Text(
-                  'CONVERSAS',
+                  'Conversas',
                   style: TextStyle(
                     fontSize: 20,
-                    fontWeight: FontWeight.w900,
+                    fontWeight: FontWeight.w400,
                     color: Colors.white,
                     decoration: TextDecoration.none,
                   ),
@@ -90,7 +87,7 @@ class _ChatsPageState extends State<ChatsPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => SettingsPage(),
+                      builder: (context) => SettingsPage(userId: widget.userId),
                     ),
                   );
                 },
@@ -107,7 +104,7 @@ class _ChatsPageState extends State<ChatsPage> {
               String displayedText = lastMessage.response;
               final formattedDate =
                   DateFormat('dd/MM').format(lastMessage.timestamp);
-        
+
               return ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(

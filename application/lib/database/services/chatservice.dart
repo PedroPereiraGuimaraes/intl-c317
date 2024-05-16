@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 
 // GET CHATS BY ID
 Future<List<dynamic>> getChatsByID(String iduser) async {
-  final url = Uri.parse('http://10.0.2.2:5000/chats/user/$iduser');
+  final url = Uri.parse('http://10.0.2.2:8000/chats/user/$iduser');
 
   try {
     final response = await http.get(url);
@@ -22,7 +22,7 @@ Future<List<dynamic>> getChatsByID(String iduser) async {
 
 // GET MESSAGES BY CHAT ID
 Future<List<dynamic>> getMessagesByChatId(int chatId) async {
-  final url = Uri.parse('http://10.0.2.2:5000/chats/user/messages/$chatId');
+  final url = Uri.parse('http://10.0.2.2:8000/chats/user/messages/$chatId');
 
   try {
     final response = await http.get(url);
@@ -40,7 +40,7 @@ Future<List<dynamic>> getMessagesByChatId(int chatId) async {
 // SEND MESSAGE TO CHAT
 Future<Map<String, dynamic>> sendMessageToChat(
     int chatId, String userId, String message) async {
-  final url = Uri.parse('http://10.0.2.2:5000/chat/sendquestion');
+  final url = Uri.parse('http://10.0.2.2:8000/chat/sendquestion');
   Map<String, dynamic> data = {
     'chatId': chatId,
     'userId': userId,
@@ -67,7 +67,7 @@ Future<Map<String, dynamic>> sendMessageToChat(
 }
 
 Future<List<dynamic>> createNewChat(String userId) async {
-  final url = Uri.parse('http://10.0.2.2:5000/chat/create');
+  final url = Uri.parse('http://10.0.2.2:8000/chat/create');
   Map<String, dynamic> data = {
     'userId': userId,
   };
@@ -93,7 +93,7 @@ Future<List<dynamic>> createNewChat(String userId) async {
 
 // DELETE CHAT BY ID
 Future<void> deleteChatById(int chatId) async {
-  final url = Uri.parse('http://10.0.2.2:5000/chat/delete/$chatId');
+  final url = Uri.parse('http://10.0.2.2:8000/chat/delete/$chatId');
 
   try {
     final response = await http.delete(url);
