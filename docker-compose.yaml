@@ -2,14 +2,14 @@ version: '3.9'
 
 services:
   api:
-    container_name: "chatbot-ia"
     build:
       context: ./backend
+    restart: always
     ports:
-      - 8000:8000
+      - 5000:5000
     environment:
       - DB_USER=chatuser
-      - DB_PASSWORD=v6EJu2zqxlDM3GfQ
+      - DB_PASSWORD=deaR89l5twuuvW45
       - API_KEY=AIzaSyDgcXeFjCbuGfv_wiG_ZKO9vZ-DFiPCCE4
 
 networks:
