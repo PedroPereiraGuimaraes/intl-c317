@@ -5,7 +5,7 @@ import 'package:application/model/User.dart';
 import 'package:application/views/screens/InitPage.dart';
 import 'package:application/views/screens/LoginPage.dart';
 import 'package:flutter/material.dart';
-import 'package:application/views/widgets/TextStyles.dart';
+import 'package:application/views/widgets/CustomTextField.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -18,7 +18,8 @@ class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _passwordCheckController = TextEditingController();
+  final TextEditingController _passwordCheckController =
+      TextEditingController();
 
   Future<void> register(String username, String email, String password,
       String passwordCheck) async {
@@ -38,11 +39,13 @@ class _RegisterPageState extends State<RegisterPage> {
             backgroundColor: Colors.white,
             title: Text(
               'ERRO',
-              style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+              style: text(20, FontWeight.w400, Color.fromARGB(255, 214, 99, 0),
+                  TextDecoration.none),
             ),
             content: Text(
               e.toString(),
-              style: text(17, FontWeight.w300, Colors.black, TextDecoration.none),
+              style:
+                  text(17, FontWeight.w300, Colors.black, TextDecoration.none),
             ),
             actions: <Widget>[
               TextButton(
@@ -51,7 +54,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 },
                 child: Text(
                   'OK',
-                  style: text(15, FontWeight.w300, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+                  style: text(15, FontWeight.w300,
+                      Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                 ),
               ),
             ],
@@ -98,14 +102,16 @@ class _RegisterPageState extends State<RegisterPage> {
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Continue com seu',
-                      style: text(22, FontWeight.w300, Colors.black, TextDecoration.none),
+                      style: text(22, FontWeight.w300, Colors.black,
+                          TextDecoration.none),
                     ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
                       'Cadastro',
-                      style: text(25, FontWeight.w900, Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
+                      style: text(25, FontWeight.w900,
+                          Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                     ),
                   ),
                   const SizedBox(height: 20),
@@ -149,7 +155,8 @@ class _RegisterPageState extends State<RegisterPage> {
                     style: button(Color.fromARGB(255, 214, 99, 0)),
                     child: Text(
                       'REGISTRAR',
-                      style: text(20, FontWeight.w300, Colors.white, TextDecoration.none),
+                      style: text(20, FontWeight.w300, Colors.white,
+                          TextDecoration.none),
                     ),
                   ),
                   TextButton(
@@ -165,7 +172,11 @@ class _RegisterPageState extends State<RegisterPage> {
                     child: RichText(
                       text: TextSpan(
                         text: 'Já tem uma conta?',
-                        style: text(20, FontWeight.normal, Color.fromARGB(255, 214, 99, 0), TextDecoration.underline),
+                        style: text(
+                            20,
+                            FontWeight.normal,
+                            Color.fromARGB(255, 214, 99, 0),
+                            TextDecoration.underline),
                       ),
                     ),
                   ),

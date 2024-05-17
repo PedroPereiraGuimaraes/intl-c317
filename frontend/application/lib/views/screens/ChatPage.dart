@@ -5,7 +5,7 @@ import 'package:application/model/Chat.dart';
 import 'package:application/model/Message.dart';
 import 'package:application/views/screens/ChatsPage.dart';
 import 'package:application/database/services/chatservice.dart';
-import 'package:application/views/widgets/TextStyles.dart';
+import 'package:application/views/widgets/CustomTextField.dart';
 
 class ChatPage extends StatefulWidget {
   final Chat chat;

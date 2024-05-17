@@ -23,7 +23,15 @@ class MyApp extends StatelessWidget {
         '/login': (context) => LoginPage(),
         '/register': (context) => RegisterPage(),
       },
-      theme: ThemeData(primaryColor: Colors.blue, primarySwatch: Colors.blue),
+      theme: ThemeData(
+        primaryColor: Colors.blue,
+        hintColor: Colors.orange,
+      ),
+      darkTheme: ThemeData(
+        brightness: Brightness.dark,
+        primaryColor: Colors.blue,
+        hintColor: Colors.orange,
+      ),
     );
   }
 }

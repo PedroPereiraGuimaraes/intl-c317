@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unrelated_type_equality_checks, use_build_context_synchronously, file_names
 
-import 'package:application/views/widgets/TextStyles.dart';
+import 'package:application/views/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:application/views/screens/ChatsPage.dart';
 import 'package:application/database/services/userservice.dart';

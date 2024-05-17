@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_const_constructors, file_names
 
-import 'package:application/views/widgets/TextStyles.dart';
+import 'package:application/views/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:application/views/screens/LoginPage.dart';
 import 'package:application/views/screens/RegisterPage.dart';

@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 // POST LOGIN USER
 Future<Map<String, dynamic>> loginUser(String email, String password) async {
-  final url = Uri.parse('http://10.0.2.2:8000/user/login');
+  final url = Uri.parse('http://10.0.2.2:5000/user/login');
 
   try {
     final response = await http.post(
@@ -39,7 +39,7 @@ Future<Map<String, dynamic>> loginUser(String email, String password) async {
 
 // POST CREATE USER
 Future<Map<String, dynamic>> createUser(User newUser) async {
-  final url = Uri.parse('http://10.0.2.2:8000/user/create');
+  final url = Uri.parse('http://10.0.2.2:5000/user/create');
 
   final bool isValidEmail =
       RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(newUser.email);
