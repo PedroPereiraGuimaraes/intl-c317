@@ -4,7 +4,7 @@ services:
   api:
     container_name: "chatbot-ia"
     build:
-      context: .
+      context: ./backend
     ports:
       - 8000:8000
     environment:
