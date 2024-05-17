@@ -99,5 +99,3 @@ def update_user_password(user_id):
             return jsonify({'error': 'Password is the same.'}), 404
     else:
         return jsonify({'error': 'Username and password are required'}), 400
-
-

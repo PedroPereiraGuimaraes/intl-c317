@@ -10,6 +10,7 @@ services:
     environment:
       - DB_USER=chatuser
       - DB_PASSWORD=v6EJu2zqxlDM3GfQ
+      - API_KEY=AIzaSyDgcXeFjCbuGfv_wiG_ZKO9vZ-DFiPCCE4
 
 networks:
   api-network:
