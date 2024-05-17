@@ -1,0 +1,280 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API Chatbot Documentation",
+    "description": "Documentation for the API",
+    "version": "1.0"
+  },
+  "host": "localhost:8000",
+  "basePath": "/",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/chat/create": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Create a chat",
+        "description": "Create a new chat",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Chat created successfully"
+          }
+        }
+      }
+    },
+    "/chats/user/{userId}": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Get chats by user ID",
+        "description": "Get all chats for a given user ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/chats/user/messages/{chatId}": {
+      "get": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Get chat messages by chat ID",
+        "description": "Get all messages for a given chat ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chatId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/chat/sendquestion": {
+      "post": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Send a message to a chat",
+        "description": "Send a message to a chat and get a response",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/chat/delete/{chatId}": {
+      "delete": {
+        "tags": [
+          "Chat"
+        ],
+        "summary": "Delete a chat by ID",
+        "description": "Delete a chat by its ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "chatId",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat deleted successfully"
+          },
+          "404": {
+            "description": "Chat not found"
+          }
+        }
+      }
+    },
+    "/user/login": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "User login",
+        "description": "Login with user credentials",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "Login successful"
+          },
+          "401": {
+            "description": "Email or password incorrect"
+          },
+          "400": {
+            "description": "Email and password are required"
+          }
+        }
+      }
+    },
+    "/user/create": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Create a new user",
+        "description": "Create a new user account",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          },
+          "409": {
+            "description": "Username or email already exists"
+          },
+          "400": {
+            "description": "Username, email, and password are required"
+          }
+        }
+      }
+    },
+    "/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get all users",
+        "description": "Get a list of all users",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          }
+        }
+      }
+    },
+    "/user/{user_id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Get user by ID",
+        "description": "Get user details by their ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "404": {
+            "description": "User not found"
+          }
+        }
+      }
+    },
+    "/user/username/{user_id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update username by ID",
+        "description": "Update a user's username by their ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User updated successfully"
+          },
+          "404": {
+            "description": "Username is the same."
+          },
+          "400": {
+            "description": "Username and password are required"
+          }
+        }
+      }
+    },
+    "/user/password/{user_id}": {
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Update password by ID",
+        "description": "Update a user's password by their ID",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password updated successfully"
+          },
+          "404": {
+            "description": "Password is the same."
+          },
+          "400": {
+            "description": "Username and password are required"
+          }
+        }
+      }
+    }
+  }
+}
