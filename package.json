@@ -1,0 +1,16 @@
+{
+  "name": "intl-c317",
+  "version": "1.0.0",
+  "main": "cypress.config.js",
+  "scripts": {
+    "test": "npx cypress run --spec cypress/e2e/**/user_spec.cy.js && npx cypress-html-reporter --output reports"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "cypress": "^13.10.0",
+    "cypress-html-reporter": "^11.0.0",
+    "cypress-mochawesome-reporter": "^3.8.2"
+  }
+}

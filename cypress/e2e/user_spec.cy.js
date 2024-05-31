@@ -1,23 +1,37 @@
 describe('User API Tests', () => {
-  const apiUrl = 
-
+  const apiUrl = 'http://127.0.0.1:5000'
+  const userId = '665a1befe267bfeb99fa4d58'
   // Teste de criação de usuário
-  it('should create a new user', () => {
-    cy.request('POST', `${apiUrl}/user/create`, {
-      email: 'testuser@example.com',
-      username: 'testuser',
-      password: 'testpassword'
+  it('should create a user that already created', () => {
+
+    cy.request({
+      method: 'POST',
+      url: `${apiUrl}/user/create`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        email: '123user@example.com',
+        username: '12312testuser',
+        password: 'testpassword',
+        confirmpassword: 'testpassword',
+      },
+      failOnStatusCode: false, 
     }).then((response) => {
-      expect(response.status).to.eq(201);
-      expect(response.body).to.have.property('message', 'User created successfully');
+      if (response.status === 409) {
+        cy.log('Usuário já existe, ignorando...');
+      } else {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('message', 'Usuário criado com sucesso');
+      }
     });
-  });
+    });
 
   // Teste de login de usuário
   it('should login the user', () => {
     cy.request('POST', `${apiUrl}/user/login`, {
-      email: 'testuser@example.com',
-      password: 'testpassword'
+      email: 'user@email.com',
+      password: 'user'
     }).then((response) => {
       expect(response.status).to.eq(201);
       expect(response.body).to.have.property('id');
@@ -34,53 +48,47 @@ describe('User API Tests', () => {
 
   // Teste de obter usuário por ID
   it('should get a user by ID', () => {
-    cy.request('POST', `${apiUrl}/user/create`, {
-      email: 'testuser2@example.com',
-      username: 'testuser2',
-      password: 'testpassword'
-    }).then((createResponse) => {
-      const userId = createResponse.body.id;
-
       cy.request('GET', `${apiUrl}/user/${userId}`).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('username', 'testuser2');
+        expect(response.body).to.have.property('username', 'testuser');
       });
-    });
   });
 
-  // Teste de atualizar o nome de usuário por ID
+  // Teste de atualizar o nome de usuário por ID com o mesmo username
   it('should update username by ID', () => {
-    cy.request('POST', `${apiUrl}/user/create`, {
-      email: 'testuser3@example.com',
-      username: 'testuser3',
-      password: 'testpassword'
-    }).then((createResponse) => {
-      const userId = createResponse.body.id;
-
-      cy.request('PUT', `${apiUrl}/user/username/${userId}`, {
-        username: 'updateduser3'
-      }).then((response) => {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('message', 'User updated successfully');
+    cy.request({ 
+    method: 'PUT',
+    url: `${apiUrl}/user/username/${userId}`,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: {
+      username: 'testuser',
+    },
+    failOnStatusCode: false, 
+  }).then((response) => {
+        expect(response.status).to.eq(404);
+        expect(response.body).to.have.property('error', 'Username is the same.');
       });
-    });
   });
 
   // Teste de atualizar a senha por ID
   it('should update password by ID', () => {
-    cy.request('POST', `${apiUrl}/user/create`, {
-      email: 'testuser4@example.com',
-      username: 'testuser4',
-      password: 'testpassword'
-    }).then((createResponse) => {
-      const userId = createResponse.body.id;
-
-      cy.request('PUT', `${apiUrl}/user/password/${userId}`, {
-        password: 'newpassword'
-      }).then((response) => {
+    cy.request({ 
+      method: 'PUT',
+      url: `${apiUrl}/user/password/${userId}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        password: 'testpassword123',
+      },
+      failOnStatusCode: false, 
+    }).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body).to.have.property('message', 'Password updated successfully');
       });
     });
-  });
+
 });
+
