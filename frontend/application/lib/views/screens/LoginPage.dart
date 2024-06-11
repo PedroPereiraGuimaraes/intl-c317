@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, depend_on_referenced_packages, unrelated_type_equality_checks, use_build_context_synchronously, file_names
 
+import 'package:application/views/screens/InitPage.dart';
 import 'package:application/views/widgets/CustomTextField.dart';
 import 'package:flutter/material.dart';
 import 'package:application/views/screens/ChatsPage.dart';
@@ -86,7 +87,27 @@ class _LoginPageState extends State<LoginPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 0),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => InitPage()),
+                        );
+                      },
+                      child: Text(
+                        '< BACK',
+                        style: text(
+                            20,
+                            FontWeight.w300,
+                            Color.fromARGB(255, 214, 99, 0),
+                            TextDecoration.none),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Image.asset(
@@ -118,7 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                       hint: "user@email.com",
                       controller: _emailController,
                       icon: Icons.email_outlined),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     title: "PASSWORD",
                     hint: "'*****************'",
@@ -126,7 +147,7 @@ class _LoginPageState extends State<LoginPage> {
                     icon: Icons.remove_red_eye_outlined,
                     isPassword: true,
                   ),
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
                       login(context, _emailController.text,

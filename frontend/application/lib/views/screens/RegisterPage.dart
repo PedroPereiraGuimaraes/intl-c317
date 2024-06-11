@@ -91,6 +91,25 @@ class _RegisterPageState extends State<RegisterPage> {
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => InitPage()),
+                        );
+                      },
+                      child: Text(
+                        '< BACK',
+                        style: text(
+                            20,
+                            FontWeight.w300,
+                            Color.fromARGB(255, 214, 99, 0),
+                            TextDecoration.none),
+                      ),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
                     child: Image.asset(
                       'assets/logo.png',
                       width: 120,
@@ -114,19 +133,19 @@ class _RegisterPageState extends State<RegisterPage> {
                           Color.fromARGB(255, 214, 99, 0), TextDecoration.none),
                     ),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                       title: "USERNAME",
                       hint: "USER123",
                       controller: _usernameController,
                       icon: Icons.person_outline),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                       title: "EMAIL",
                       hint: "user@gmail.com",
                       controller: _emailController,
                       icon: Icons.email_outlined),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     title: "PASSWORD",
                     hint: "**************",
@@ -134,7 +153,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     icon: Icons.key,
                     isPassword: true,
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 10),
                   CustomTextField(
                     title: "CONFIRM PASSWORD",
                     hint: "**************",
@@ -142,7 +161,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     icon: Icons.key,
                     isPassword: true,
                   ),
-                  const SizedBox(height: 50),
+                  const SizedBox(height: 30),
                   ElevatedButton(
                     onPressed: () {
                       register(
