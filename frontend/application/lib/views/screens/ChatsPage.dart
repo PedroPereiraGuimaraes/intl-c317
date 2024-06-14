@@ -22,9 +22,7 @@ class _ChatsPageState extends State<ChatsPage> {
 
   Future<void> _getChats() async {
     final chatsData = await getChatsByID(widget.userId);
-    print(chatsData);
     final chats = chatsData.map((chatJson) => Chat.fromJson(chatJson)).toList();
-
     setState(() {
       chatList = chats
         ..sort((a, b) => b.messages.isNotEmpty

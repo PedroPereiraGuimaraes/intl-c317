@@ -15,12 +15,12 @@ class Message {
 
   factory Message.fromJson(Map<String, dynamic> json) {
     return Message(
-      idUser: json['idUser'] as String,
-      message: json['message'] as String,
-      response: json['response'] as String,
-      timestamp: DateTime.parse(
-        json['timestamp'] as String,
-      ),
+      idUser: json['idUser'] != null ? json['idUser'] as String : '',
+      message: json['message'] != null ? json['message'] as String : '',
+      response: json['response'] != null ? json['response'] as String : '',
+      timestamp: json['timestamp'] != null
+          ? DateTime.parse(json['timestamp'] as String)
+          : DateTime.now(),
     );
   }
 }

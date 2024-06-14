@@ -1,4 +1,4 @@
-#Fri May 17 19:10:27 BRT 2024
+#Fri Jun 14 18:01:11 BRT 2024
 base.0=C\:\\Users\\ppg10\\OneDrive\\Desktop\\GitHub\\intl-c317\\frontend\\application\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\classes.dex
 path.0=classes.dex
 renamed.0=classes.dex

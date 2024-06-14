@@ -15,11 +15,13 @@ class Chat {
 
   factory Chat.fromJson(Map<String, dynamic> json) {
     return Chat(
-      chatId: json['chatId'] as int,
-      messages: (json['messages'] as List<dynamic>)
-          .map((messageJson) => Message.fromJson(messageJson))
-          .toList(),
-      userId: json['userId'] as String,
+      chatId: json['chatId'] != null ? json['chatId'] as int : 0,
+      messages: (json['messages'] as List<dynamic>?)
+              ?.map((messageJson) =>
+                  Message.fromJson(messageJson as Map<String, dynamic>))
+              .toList() ??
+          [],
+      userId: json['userId'] != null ? json['userId'] as String : '',
     );
   }
 }

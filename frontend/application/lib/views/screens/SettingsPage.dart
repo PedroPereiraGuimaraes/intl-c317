@@ -3,6 +3,7 @@
 
 import 'package:application/views/screens/AboutPage.dart';
 import 'package:application/views/screens/ChatsPage.dart';
+import 'package:application/views/screens/InitPage.dart';
 import 'package:flutter/material.dart';
 import 'package:application/views/widgets/CustomTextField.dart';
 
@@ -127,6 +128,27 @@ class _SettingsPageState extends State<SettingsPage> {
                       context,
                       MaterialPageRoute(
                         builder: (context) => AboutPage(userId: widget.userId),
+                      ),
+                    );
+                  },
+                ),
+                ListTile(
+                  title: Text(
+                    'Sair',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Color.fromARGB(255, 0, 55, 111),
+                    ),
+                  ),
+                  trailing: Icon(
+                    Icons.arrow_forward_ios,
+                    color: Color.fromARGB(255, 214, 99, 0),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => InitPage(),
                       ),
                     );
                   },

@@ -8,9 +8,9 @@ services:
     ports:
       - 5000:5000
     environment:
-      - DB_USER=chatuser
-      - DB_PASSWORD=deaR89l5twuuvW45
-      - API_KEY=AIzaSyDgcXeFjCbuGfv_wiG_ZKO9vZ-DFiPCCE4
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - API_KEY=AIzaSyAJ2fn0v3ww_5Q_USwFIhSX30LGBu9PPfM
 
 networks:
   api-network:
