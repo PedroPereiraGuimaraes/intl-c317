@@ -1,6 +1,8 @@
+let apiUrl = 'http://127.0.0.1:5000'
+let userId = '666cc65067cff68d6eafc60e'
+
 describe('User API Tests', () => {
-  const apiUrl = 'http://127.0.0.1:5000'
-  const userId = '665a1befe267bfeb99fa4d58'
+
   // Teste de criação de usuário
   it('should create a user that already created', () => {
 
@@ -21,8 +23,8 @@ describe('User API Tests', () => {
       if (response.status === 409) {
         cy.log('Usuário já existe, ignorando...');
       } else {
-        expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('message', 'Usuário criado com sucesso');
+        expect(response.status).to.eq(201);
+        expect(response.body).to.have.property('message', 'User created successfully');
       }
     });
     });
@@ -33,7 +35,7 @@ describe('User API Tests', () => {
       email: 'user@email.com',
       password: 'user'
     }).then((response) => {
-      expect(response.status).to.eq(201);
+      expect(response.status).to.eq(200);
       expect(response.body).to.have.property('id');
     });
   });
@@ -50,7 +52,7 @@ describe('User API Tests', () => {
   it('should get a user by ID', () => {
       cy.request('GET', `${apiUrl}/user/${userId}`).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('username', 'testuser');
+        expect(response.body).to.have.property('username', 'user');
       });
   });
 
@@ -63,7 +65,7 @@ describe('User API Tests', () => {
       'Content-Type': 'application/json',
     },
     body: {
-      username: 'testuser',
+      username: 'user',
     },
     failOnStatusCode: false, 
   }).then((response) => {
@@ -90,5 +92,65 @@ describe('User API Tests', () => {
       });
     });
 
+  // Teste de atualizar a senha por ID
+  it('should update password by ID', () => {
+    cy.request({ 
+      method: 'PUT',
+      url: `${apiUrl}/user/password/${userId}`,
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: {
+        password: 'user',
+      },
+      failOnStatusCode: false, 
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('message', 'Password updated successfully');
+      });
+    });
+
+
 });
 
+describe('Conversation API Tests',()=>{
+  let chatId;
+
+  it('User create chat', () => {
+    cy.request({ 
+      method: 'POST',
+        url: `${apiUrl}/chat/create`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            'userId': userId          
+          },
+          failOnStatusCode: false, 
+    }).then((response) => {
+        expect(response.status).to.eq(201);
+        chatId = response.body[0].chatId;
+        expect(response.body).to.be.an('array');
+      });
+  });
+
+  // Teste de conversas
+  it('Switch message with user and IA', () => {
+    cy.request({ 
+      method: 'POST',
+        url: `${apiUrl}/chat/sendquestion`,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: {
+            message: 'Qual o nome da empresa?',
+            userId: userId,
+            chatId: chatId,            
+          },
+          failOnStatusCode: false, 
+    }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('response', 'IWS Atendimentos');
+      });
+  });
+});
