@@ -135,7 +135,7 @@ describe('Conversation API Tests',()=>{
   });
 
   // Teste de conversas
-  it('Switch message with user and IA', () => {
+  it('Exchange messages with AI', () => {
     cy.request({ 
       method: 'POST',
         url: `${apiUrl}/chat/sendquestion`,
@@ -153,4 +153,39 @@ describe('Conversation API Tests',()=>{
         expect(response.body).to.have.property('response', 'IWS atendimentos');
       });
   });
+
+
+    it('All messages from a chat', () => {
+      cy.request({ 
+        method: 'GET',
+          url: `${apiUrl}/chats/user/messages/${chatId}`,
+      }).then((response) => {
+          expect(response.status).to.eq(200);
+          expect(response.body).to.be.an('array');
+        });
+    });
+
+      
+    it('All messages from a chat', () => {
+      cy.request({ 
+        method: 'GET',
+          url: `${apiUrl}/chats/user/messages/${chatId}`,
+      }).then((response) => {
+          expect(response.status).to.eq(200);
+          expect(response.body).to.be.an('array');
+        });
+    });
+
+      
+    it('Search a chat with userId', () => {
+      cy.request({ 
+        method: 'GET',
+          url: `${apiUrl}/chats/user/${userId}`,
+      }).then((response) => {
+          expect(response.status).to.eq(200);
+          expect(response.body).to.be.an('array');
+        });
+    });
+
+
 });
