@@ -110,19 +110,36 @@ def get_all_chat_messages_by_chat_id(chatId):
 # SEND MESSAGE
 @routes_conversation.route('/chat/sendquestion', methods=['POST'])
 def receive_message():
-    data = request.json
-    chatId =  int(data['chatId'])
-    userId = data['userId']
-    message = data['message']
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    response = process_message(message)
-    
-    db_conversation.collection.update_one(
-        {'chatId': chatId},
-        {'$push': {'messages': {'userId': userId, 'message': message,'response':response, 'timestamp': timestamp}}}
-    )
-    
-    return jsonify({"response": response})
+    try:
+        data = request.json
+
+        # Validar se todos os campos necessários estão presentes no request
+        if 'chatId' not in data or 'userId' not in data or 'message' not in data:
+            return jsonify({"error": "Missing required fields"}), 400
+
+        chatId = int(data['chatId'])
+        userId = data['userId']
+        message = data['message']
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        response = process_message(message)
+
+        # Verificar se o chatId existe no banco de dados antes de atualizar
+        if db_conversation.collection.count_documents({'chatId': chatId}) == 0:
+            return jsonify({"error": "Chat ID not found"}), 404
+
+        # Atualizar a coleção com a nova mensagem
+        db_conversation.collection.update_one(
+            {'chatId': chatId},
+            {'$push': {'messages': {'userId': userId, 'message': message, 'response': response, 'timestamp': timestamp}}}
+        )
+
+        return jsonify({"response": response}), 200
+
+    except ValueError:
+        return jsonify({"error": "Invalid chatId format"}), 400
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
 
 # DELETE CHAT BY ID
 @routes_conversation.route('/chat/delete/<chatId>', methods=['DELETE'])
