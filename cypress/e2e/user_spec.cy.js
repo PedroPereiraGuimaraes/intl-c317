@@ -150,7 +150,7 @@ describe('Conversation API Tests',()=>{
           failOnStatusCode: false, 
     }).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body).to.have.property('response', 'IWS Atendimentos');
+        expect(response.body).to.have.property('response', 'IWS atendimentos');
       });
   });
 });
